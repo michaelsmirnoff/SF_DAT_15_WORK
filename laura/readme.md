@@ -22,6 +22,8 @@ I was able to construct a csv file of all survey responses from the two years it
 
 * **14 system generated fields for mobile responses** - *this only applies to 5 of the survey responses.*
 
+I've uploaded a [small sample of the data](/blob/master/laura/survey_data_example.csv).
+
 ## Question(s)
 This is probably **way too broad** but it's a start.  I'm still sorting through multiple questions, but I believe that they can help me explore the data and refine my project:
 
