@@ -21,4 +21,8 @@
 ###Project proposal:
     I plan to spend an initial phase reading through community reports to determine which variables are high-utility to different groups. Taking these variables for a specific geography such as one metropolitan statistical area (MSA), I will plot them over several years to see what changes have occured. 
 
+<<<<<<< HEAD
     I am currently interested in seeing if there is a correlation in the value of home loans to racial category. Plotting the change in home loan value by race over time and comparing to the change in average home price may give some interesting information on home purchase preference/power by racial groups. Relied upon income is available in the HMDA data set to use as a control during this analysis.
+=======
+    I am currently interested in seeing if there is a correlation in the value of home loans to racial category. Plotting the change in home loan value by race over time and comparing to the change in average home price may give some interesting information on home purchase preference/power by racial groups. Relied upon income is available in the HMDA data set to use as a control during this analysis.
+>>>>>>> 1ed5a7298803ec82a748d1c74bd857016595bb22
