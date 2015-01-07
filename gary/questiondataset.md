@@ -1,7 +1,7 @@
 
 ## Gary W. Mendel - DAT4 Course Project
 #### **Projects Narrowed Down to the Following:**
-
+  
 * What is/are the question/s I hope to answer? 
       1.  [Yopine:  Are overall votes/ideas mostly positive or mostly negative results/sentiment?](http://poll.yopine.com/pollShare/1420601686652)
       2.  Yopine:  Is customer 'XYZ' getting their questions answered by their (Linkedin) network?
