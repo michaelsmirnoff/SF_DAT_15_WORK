@@ -6,4 +6,4 @@ Crunchbase provides in open data map (CSV) of start-ups that includes informatio
 *Fundraise
 *Acquisition
 There is no Python wrapper on Crunchbase’s site. 
-I’m interested in learning more about how VC’s and angel investors identify value in start-ups. 
+I’m interested in learning more about how Venture Capitalists and angel investors identify value in start-ups. 
