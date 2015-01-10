@@ -1,4 +1,4 @@
 ### Jennifer Lambert
 
-Office of Analytics *italics* 
-Department of State *bold*
+*Office of Analytics*  
+**Department of State**
