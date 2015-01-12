@@ -20,10 +20,12 @@ number, text = dirty.split(' ')
 clean = int(number)
 print number
 
+# clean the runtime column
 clean_runtime = [float(r.split(' ')[0]) for r in data.runtime]
 data['runtime'] = clean_runtime
 data.head()
 
+#clean and split the genres
 genres = set()
 for m in data.genres:
     genres.update(g for g in m.split('|'))
@@ -34,6 +36,7 @@ for genre in genres:
 
 data.head()
 
+# strip years out of movie titles
 data['title'] = [t[0:-7] for t in data.title]
 data.head()
 
@@ -110,3 +113,29 @@ plt.legend(frameon = False)
 for year, subset in data.groupby('year'):
     print year, subset[subset.score == subset.score.max()].title.values
 
+# Jason's homework section
+
+data.plot(kind = 'scatter', x = 'runtime', y = 'score', alpha = 0.3)
+'''
+Observation 1: At first glance, there doesn't seem to be a strong correlation 
+between a movie's length and its score.
+'''
+
+grouped_runtimes = data.groupby(decade).runtime
+runtime_mean = grouped_runtimes.mean()
+runtime_mean.name = "Decade Runtime Mean"
+run_std = grouped_runtimes.std()
+
+plt.plot(runtime_mean.index, runtime_mean.values, 'o-',
+         color = 'r', lw = 3, label = "Decade Runtime Average")
+plt.fill_between(runtime_mean.index, (runtime_mean + run_std).values, 
+                 (runtime_mean - run_std).values, color = 'r', alpha = .2)
+plt.scatter(data.year, data.runtime, alpha = 0.01, lw = 0, color = 'k')
+plt.xlabel('Year')
+plt.ylabel('Runtime')
+plt.ylim(0, 300)
+plt.legend(frameon = False)
+'''
+Observation 2: While the average length of movies has remained relatively constant,
+the standard deviation has observably decreased since the 1960s.
+'''
