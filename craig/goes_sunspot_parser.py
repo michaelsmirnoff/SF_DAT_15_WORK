@@ -9,7 +9,7 @@ import pandas as pd
 
 
 # Year range for GOES x-ray data
-years = range(1975, 2015) #text file naming convention changes as 2012
+years = range(1982, 2014) #text file naming convention changes as 2012
 
 # ftp address for GOES data
 goes_URL_1 = 'ftp://ftp.ngdc.noaa.gov/STP/space-weather/solar-data/solar-features/solar-flares/x-rays/goes/'
@@ -77,7 +77,7 @@ for year in years:
 
 # Write GOES x-ray data to a csv for future analysis
 
-goes_MX.to_csv('F:\python_ds\ga_class\goes_1975_2014.csv')
+goes_MX.to_csv('C:\Users\Craig\Documents\Python_DS\GA_DS\DAT4-students\goes_1982_2014.csv')
 
 
 ###############################################################################
@@ -87,7 +87,7 @@ goes_MX.to_csv('F:\python_ds\ga_class\goes_1975_2014.csv')
 # Obtain sunspot data
 
 # Year range for sunspot data
-sunspot_years = range(1981, 2014)
+sunspot_years = range(1982, 2014)
 
 # FTP address for sunspot data
 sunspot_URL_1 = 'ftp://ftp.ngdc.noaa.gov/STP/SOLAR_DATA/SUNSPOT_REGIONS/USAF_MWL/'
@@ -122,7 +122,8 @@ for year in sunspot_years:
         sunspot_regions = sunspot_regions.append(pd.DataFrame(data = temp_df))
         
     elif year > 1995 and year <= 2005:
-        
+        sunspot_URL_2 = sunspot_URL_1 + str(year) + '/' + 'usaf_mwl.' + str(year)[2:]
+
         # For each year a temporary dataframe is created and then appended to sunspot_regions
         temp_df = pd.read_fwf(sunspot_URL_2, header = None, colspecs = sunspot_cols)
         temp_df.columns = sunspot_header
@@ -147,7 +148,7 @@ for year in sunspot_years:
 
 # Write sunspot data to a csv for future analysis
 
-sunspot_regions.to_csv('F:\python_ds\ga_class\USAF_sunspot_1981_2013.csv')
+sunspot_regions.to_csv('C:\Users\Craig\Documents\Python_DS\GA_DS\DAT4-students\USAF_sunspot_1982_2013.csv')
 
         
 # NOTE: UTC is not reading leading zeros
