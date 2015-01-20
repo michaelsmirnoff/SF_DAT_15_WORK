@@ -1,2 +1,10 @@
 # ignore zips in data/USPTO_zipfiles
 data/USPTO_zipfiles
+data/Holding
+
+# ignore background docs
+USPTOPatentsDatabaseConstruction.pdf
+Extracting_and_Formatting.pdf
+
+# ignore cloned patentprocessor code
+code/patentprocessor
