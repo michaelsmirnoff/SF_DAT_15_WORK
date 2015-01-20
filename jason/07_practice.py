@@ -13,7 +13,7 @@ from sklearn.cross_validation import train_test_split
 from sklearn.cross_validation import cross_val_score
 from sklearn.grid_search import GridSearchCV
 
-source = "../Data/glass.data"
+source = "/Users/Jason/Documents/DataScience/DAT4-students/jason/Data/glass.data"
 
 columns = ['id', 'RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe', 'Type']
 data = pd.read_csv(source, header = None, names = columns,
@@ -23,13 +23,32 @@ attributes = ['building_windows_float', 'building_windows_nonfloat', 'vehicle_wi
 data['Type'] = data['Type'].astype('category')
 data['Type'].cat.categories = attributes
 
-X = data.loc[:, 'RI': 'Fe']
-y = data.loc[:, 'Type']
+# Exploring the data w/ pandas
+data.groupby('Type')['RI', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Ba', 'Fe'].mean()
+data.groupby('Type').agg(np.mean)
+data.groupby('Type').agg([np.min, np.max])
+data.sort_index(by = 'RI').values
+data.sort_index(by = 'Na').values
+data.sort_index(by = 'Mg').values
+data.sort_index(by = 'Al').values
+data.boxplot(by = 'Type')
+pd.scatter_matrix(data, c = data['Type'])
 
+X = data.loc[:, 'RI':'Fe']
+y = data.loc[:, 'Type']
+X2 = data.loc[:, ['RI', 'Mg', 'K', 'Ba', 'Fe']]
+y2 = data.loc[:, 'Type']
+
+# Round 1: using all variables
+# Round 2: using selected variables
 # Step 1: Split the data
+# Round 1:
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 4)
+# Round 2:
+X2_train, X2_test, y2_train, y2_test = train_test_split(X2, y2, random_state = 4)
 
 # Steps 2, 3, and 4: Test set errors for different values of k
+# Round 1
 knn = KNeighborsClassifier(n_neighbors=1)
 knn.fit(X_train, y_train)
 knn.score(X_test, y_test)
@@ -50,21 +69,63 @@ knn = KNeighborsClassifier(n_neighbors=10)
 knn.fit(X_train, y_train)
 knn.score(X_test, y_test)
 
+# Round 2
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X2_train, y2_train)
+knn.score(X2_test, y2_test)
+
+knn = KNeighborsClassifier(n_neighbors=2)
+knn.fit(X2_train, y2_train)
+knn.score(X2_test, y2_test)
+
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X_train, y_train)
+knn.score(X_test, y_test)
+
+knn = KNeighborsClassifier(n_neighbors=8)
+knn.fit(X_train, y_train)
+knn.score(X_test, y_test)
+
+knn = KNeighborsClassifier(n_neighbors=10)
+knn.fit(X_train, y_train)
+knn.score(X_test, y_test)
+
 # Steps 5 and 6: Apply best model, k = 1, to all data
+# Round 1
 knn = KNeighborsClassifier(n_neighbors=1)
 knn.fit(X, y)
 
+#Round 2
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X2, y2)
+
 # Cross validation
+# Round 1
 scores = cross_val_score(knn, X, y, cv = 5, scoring = 'accuracy')
+scores
+np.mean(scores)
+# Round 2
+scores = cross_val_score(knn, X2, y2, cv = 5, scoring = 'accuracy')
 scores
 np.mean(scores)
 
 # Search for optimal value of k
-k_range = range(1, 30)
+# Round 1
+k_range = range(1, 30, 2)
 scores = []
 for k in k_range:
     knn = KNeighborsClassifier(n_neighbors=k)
     scores.append(np.mean(cross_val_score(knn, X, y, cv = 5, scoring = 'accuracy')))
+    
+plt.figure()
+plt.plot(k_range, scores)
+
+# Round 2
+k_range = range(1, 30, 2)
+scores = []
+for k in k_range:
+    knn = KNeighborsClassifier(n_neighbors=k)
+    scores.append(np.mean(cross_val_score(knn, X2, y2, cv = 5, scoring = 'accuracy')))
     
 plt.figure()
 plt.plot(k_range, scores)
