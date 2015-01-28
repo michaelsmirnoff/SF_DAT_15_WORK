@@ -1,6 +1,5 @@
-# ignore zips in data/USPTO_zipfiles
-data/USPTO_zipfiles
-data/Holding
+# ignore files in data
+data/
 
 # ignore background docs
 USPTOPatentsDatabaseConstruction.pdf
