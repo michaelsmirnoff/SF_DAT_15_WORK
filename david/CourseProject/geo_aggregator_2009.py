@@ -56,7 +56,7 @@ class geo_aggregator(object):
 
 					#select all state codes in the MSA
 					SQL = '''SELECT statecode
-					FROM hmdapub2012
+					FROM hmdapub2009
 					WHERE msaofproperty = %s
 					'''
 
@@ -86,7 +86,7 @@ class geo_aggregator(object):
 							state_var = (state_list[state], MSA_list[msa]) #convert string to tuple for psycopg2
 							county_list = []
 							SQL = '''SELECT countycode
-											FROM hmdapub2012
+											FROM hmdapub2009
 											WHERE statecode = %s and msaofproperty = %s
 											'''
 							cur.execute(SQL, state_var)
@@ -111,7 +111,7 @@ class geo_aggregator(object):
 									#print county_var, "county var", "*" * 10
 									tract_list = []
 									SQL = '''SELECT censustractnumber
-													 FROM hmdapub2012
+													 FROM hmdapub2009
 													 where countycode = %s and statecode = %s and msaofproperty = %s
 													 '''
 									cur.execute(SQL, county_var)
