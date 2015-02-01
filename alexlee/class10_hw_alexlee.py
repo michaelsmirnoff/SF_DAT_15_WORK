@@ -32,15 +32,16 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 ## Part 3
 
 from sklearn.linear_model import LogisticRegression     # import the estimator we want
-logreg = LogisticRegression()                             # instantiate estimator
-logreg.fit(X_train, y_train)                              # fit with training data
-preds = logreg.predict(X_test)                            # predict for test data
+logreg = LogisticRegression()                           # instantiate estimator
+logreg.fit(X_train, y_train)                            # fit with training data
+preds = logreg.predict(X_test)                          # predict for test data
+probs = logreg.predict_proba(X_test)                    # predict probabilities for AUC
 
 print(ConfusionMatrix(list(y_test), list(preds)))       # see how we did
 
 print(metrics.accuracy_score(y_test, preds))            # check accuracy (88.89%)
 
-print(metrics.roc_auc_score(y_test, preds))              # check AUC (83.33%)
+print(metrics.roc_auc_score(y_test, probs[:,1]))        # check AUC (93.98%)
 
 ## Part 4
 
