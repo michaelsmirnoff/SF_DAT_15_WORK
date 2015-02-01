@@ -15,3 +15,10 @@ cred_list = credentials.split(',')
 geo.main(cred_list, MSA)
 
 geo.write_geo_dict(filename)
+
+#https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2009.csv
+#https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2010.csv
+#https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2011.csv
+#https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2012.csv
+#https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2013.csv
+
