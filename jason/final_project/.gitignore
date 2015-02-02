@@ -1,0 +1,9 @@
+# ignore files in data
+data/
+
+# ignore background docs
+USPTOPatentsDatabaseConstruction.pdf
+Extracting_and_Formatting.pdf
+
+# ignore cloned patentprocessor code
+code/patentprocessor
