@@ -110,6 +110,8 @@ print cross_val_score(knn, X, y, cv=3, scoring='roc_auc').mean() # AUC 0.821532
 knn = KNeighborsClassifier(n_neighbors=3)
 print cross_val_score(knn, X, y, cv=3, scoring='roc_auc').mean() # AUC 0.879533
 
+
+
 '''* Part 5 (Optional):
     * Explore the data to see if any features look like good predictors.
     * Use cross-validation to compare a model with a smaller set of features with your best model from Part 4.
