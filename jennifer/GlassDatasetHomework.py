@@ -65,8 +65,8 @@ print metrics.accuracy_score(y_test, preds)
 y_test.mean()
 1 - y_test.mean()
 
-#Calculate the AUC - I couldn't get this to work right!
-fpr, tpr, thresholds = metrics.roc_curve(y_test, probs)
+#Calculate the AUC
+probs = logreg.predict_proba(X_test)[:, 1]
 print metrics.roc_auc_score(y_test, probs)
 
 #Use cross-validation (with AUC as the scoring metric) to compare three models: 1) logistic regression; 2) KNN (K=1); and 3) KNN (K=3)
