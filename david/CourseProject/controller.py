@@ -9,61 +9,85 @@ from DAT4_library import parse_inputs
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+from pylab import *
+from years_of_milwaukee import call_2009
+from years_of_milwaukee import call_2010
+from years_of_milwaukee import call_2011
+from years_of_milwaukee import call_2012
+from years_of_milwaukee import call_2013
 #instantiate classes
 #geo = geo_aggregator() #disabled geo_aggregator as it has been used and is not needed
 query = queries()
 connect = connect_DB()
 parse = parse_inputs()
+
+mil_2009 = call_2009()
+mil_2010 = call_2010()
+mil_2011 = call_2011()
+mil_2012 = call_2012()
+mil_2013 = call_2013()
+
 #open credentials to access database
-cur = connect.connect()
-
+#cur = connect.connect()
+print "\n"
 #get counts for loops: applications and originations for 2009-2013
-SQL = query.count_originations_2009()
-cur.execute(SQL)
-orig_count_2009 = cur.fetchone()[0]
-print orig_count_2009, "origination count"
-SQL = query.count_applications_2009()
-cur.execute(SQL)
-app_count_2009 = cur.fetchone()[0]
-print app_count_2009, "application count"
+'''data have been filtered as follows
+    loan type: conventional only, code 1
+    property type: 1-4 family only, code 1
+    loan purpose: purchase only, code 1
+    occupancy status: owner occupied only, code 1
+    lien status: first liens only, code 1
+    action type: originations includes only originated loans, applications includes codes 1-4
+    these filters were used to standardize the underwriting criteria for the logistic model
+    standardizing type also allows comparison on pricing as collateral type, loan type, loan purpose, and occupancy status all affect pricing
+'''
 
-#set header list for data frames
-HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-            'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-            'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-            'minority_population_pct', 'tract_to_msa_md_income']
+'''
+No filter lending activity in MSA 33340
+2009: applications 124,999, originations 65,761, approval percent = 52.61%
+2010: applications 106,160, originations 57,089, approval percent = 53.78%
+2011: applications 84128, originations 45,671, approval percent = 54.29%
+2012: applications 106,200, originations 64,241, approval percent = 60.49%
+2013: applications 81,802, originations 48,194, approval percent = 58.92%
 
-#get data for data frame
-SQL = query.originations2009()
-cur.execute(SQL)
-orig_2009 = pd.DataFrame(cur.fetchall(), columns = HMDA_cols)
+Filtered lending activity in MSA 33340
+2009: applications 9288, originations 7380, approval percent = 79.46%
+    minority: applications 1389, originations, approval percent = 67.67%
+    non-minority: applications , originations, approval percent = 81.53%
+2010: appplications , originations, approval percent =
+2011: applicaitons , originations , approval percent =
+2012: applications , originations , approval percent =
+2013: applications , originations , approval percent =
+'''
 
-#add minority status for 2009 originations dataframe
-for row in orig_2009.iterrows():
-    parse.parse(row)
-    orig_2009['minority_status'] = parse.inputs['minority status']
+mil_2009.descriptors_2009()
+print "\n"
+mil_2010.descriptors_2010()
+print "\n"
+mil_2011.descriptors_2011()
+print "\n"
+mil_2012.descriptors_2012()
+print "\n"
+mil_2013.descriptors_2013()
+#initialize lists of minority and non-minority approval rates for graphing
+min_approvals = [0, mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
+nonmin_approvals = [0, mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
+#years = [2009, 2010, 2011, 2012, 2013]
 
-SQL = query.applications2009()
-cur.execute(SQL)
-app_2009 = pd.DataFrame(cur.fetchall(), columns = HMDA_cols)
-
-#minority status of 1 is minority 0 is non-minority
-#add minority status to the 2009 applications dataframe
-#this is where I learned that I hate pandas
-app_2009['minority_status'] = 0
-i = 0
-minority_status = []
-for row in app_2009.iterrows():
-    parse.parse(row)
-    minority_status.append(parse.inputs['minority status'])
-
-app_2009['minority_status'] = minority_status
-print app_2009.minority_status.value_counts()
-
-
-
-
+years = [0,1,2,3,4,5]
+years2 = ['0', '2009', '2010', '2011', '2012', '2013']
+#plt.plot(x, y, label)
+axes = figure().add_subplot(111)
+a = axes.get_xticks().tolist()
+a = years2
+axes.set_xticklabels(a)
+plt.plot(years, min_approvals, marker = 'o', color = 'r', label = 'minority approval rate')
+plt.plot(years, nonmin_approvals, label='non-minority approval rate')
+plt.ylabel('approval rate')
+plt.title('Approval Rates by Minority Status')
+plt.legend()
+plt.ylim((0,100))
+plt.show()
 '''
 #select MSA and build geo dictionary
 #this was run for each year 2009-2013

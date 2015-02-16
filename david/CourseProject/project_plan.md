@@ -45,19 +45,21 @@ Analysis will focus on the following data attributes:
     - % originations to minorities
     - tract minority % of population
     - change in tract minority % population over time
-    
+    - average loan amount to minority and non-minority by tract and year
+    - 
 * baselining for MSA
     - application and origination counts by minority status (by tract and year)
     - % applications by minorities
     - % originations to minorities
     - MSA minority population %
+    - average loan amount to minority and non-minority for the MSA by year
 
 ###Analysis Plan
 * Compare application and origination counts and rates by minority and non-minority over time for each tract in Milwaukee
 * Compare loan amounts by minority and non-minority status as well as by location over time for each tract in Milwaukee
     - this could include a comparison of minority/non-minority income to tract median income and MSA median income
         + MSA to tract income comparison will be a proxy for a wealth/income disparity due to minority status
-
+* Develop a logistic regression model that predicts the outcome of a loan application
 
 
 ##Code Structure
