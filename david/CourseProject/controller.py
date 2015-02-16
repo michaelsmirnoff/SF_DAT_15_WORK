@@ -22,11 +22,11 @@ cur = connect.connect()
 SQL = query.count_originations_2009()
 cur.execute(SQL)
 orig_count_2009 = cur.fetchone()[0]
-print orig_count_2009
+print orig_count_2009, "origination count"
 SQL = query.count_applications_2009()
 cur.execute(SQL)
 app_count_2009 = cur.fetchone()[0]
-print app_count_2009
+print app_count_2009, "application count"
 
 #set header list for data frames
 HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
@@ -38,16 +38,32 @@ HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', '
 SQL = query.originations2009()
 cur.execute(SQL)
 orig_2009 = pd.DataFrame(cur.fetchall(), columns = HMDA_cols)
-#print orig_2009.head()
+
+#add minority status for 2009 originations dataframe
+for row in orig_2009.iterrows():
+    parse.parse(row)
+    orig_2009['minority_status'] = parse.inputs['minority status']
 
 SQL = query.applications2009()
 cur.execute(SQL)
 app_2009 = pd.DataFrame(cur.fetchall(), columns = HMDA_cols)
-#print app_2009[0][0]
-#app_2009['boomba'] = range(0,1908)
+
+#minority status of 1 is minority 0 is non-minority
+#add minority status to the 2009 applications dataframe
+#this is where I learned that I hate pandas
+app_2009['minority_status'] = 0
+i = 0
+minority_status = []
 for row in app_2009.iterrows():
     parse.parse(row)
-    #print row[1][8:13]
+    minority_status.append(parse.inputs['minority status'])
+
+app_2009['minority_status'] = minority_status
+print app_2009.minority_status.value_counts()
+
+
+
+
 '''
 #select MSA and build geo dictionary
 #this was run for each year 2009-2013

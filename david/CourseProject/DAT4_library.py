@@ -75,7 +75,7 @@ class demographics(AD_report):
 
     def rate_spread_index(self, rate):
         if rate == 'NA   ' or rate == '     ':
-            return 7
+            return 6
         elif float(rate) >= 1.5 and float(rate) <= 1.99:
             return 0
         elif float(rate) >= 2.00 and float(rate) <= 2.49:
@@ -91,7 +91,7 @@ class demographics(AD_report):
         elif float(rate) >= 5.50  and float(rate) <= 6.49:
             return 6
         elif float(rate) >= 6.50:
-            return 6
+            return 7
 
     def minority_count(self, a_race):
         #the minority count is the count of minority races listed for the primary applicant

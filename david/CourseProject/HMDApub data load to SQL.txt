@@ -42,7 +42,7 @@ CREATE TABLE Milwaukee_2009
 	LienStatus varchar(1),
 	Area_Population varchar(20),
 	Minority_Population_pct varchar(6),
-	HUD_Median_Family_Incom varchar(10),
+	HUD_Median_Family_Income varchar(10),
 	Tract_to_MSA_MD_Income varchar(15),
 	Num_of_Owner_occupied_units varchar(8),
 	Num_of_1_to_4_Family_units varchar(8),
