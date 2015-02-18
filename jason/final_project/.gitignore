@@ -1,5 +1,8 @@
+
 # ignore files in data
 data/
+!company_agg_funds.csv
+!test_company_funds.csv
 
 # ignore background docs
 USPTOPatentsDatabaseConstruction.pdf
