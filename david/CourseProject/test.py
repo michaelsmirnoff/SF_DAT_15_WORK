@@ -97,10 +97,10 @@ class call_tracts_2013(year_calls):
 		#print app_2013[['minority_tract_category', 'minority_population_pct']]
 
 		#need counts of tracts in each minority percent category - get from sql with a distinct query?
-		print "\napplications by minority tract category\n", "*"*20
+		print "\napplication count by minority tract category\n", "*"*20
 		print app_2013.groupby('minority_tract_category').minority_tract_category.count() #print the count of applications by tract category
 
-		print "\noriginations by minority tract category\n", "*"*20
+		print "\norigination count by minority tract category\n", "*"*20
 		print orig_2013.groupby('minority_tract_category').minority_tract_category.count() #print the count of originations by tract category
 
 		for tract in orig_2013.groupby('minority_tract_category').minority_tract_category.count():
@@ -113,11 +113,10 @@ class call_tracts_2013(year_calls):
 			self.tract_orig_rates.append(round((self.orig_by_tract_minority_category[i]/float(self.app_by_tract_minority_category[i])*100),2))
 
 		print "\norigination rates by tract category\n", "*"*20
-		print "high:", self.tract_orig_rates[0]
 		print "low:", self.tract_orig_rates[1]
 		print "middle:", self.tract_orig_rates[2]
 		print "upper:", self.tract_orig_rates[3]
-
+		print "high:", self.tract_orig_rates[0]
 		#store minority application counts in the class object for use in graphing
 		self.min_app_count_low = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'low')]['minority_status'].count()
 		self.min_app_count_middle = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'middle')]['minority_status'].count()
@@ -128,10 +127,37 @@ class call_tracts_2013(year_calls):
 		self.min_orig_count_middle = orig_2013[(orig_2013.minority_status ==1)& (orig_2013.minority_tract_category == 'middle')]['minority_status'].count()
 		self.min_orig_count_upper = orig_2013[(orig_2013.minority_status ==1)& (orig_2013.minority_tract_category == 'upper')]['minority_status'].count()
 		self.min_orig_count_high= orig_2013[(orig_2013.minority_status ==1)& (orig_2013.minority_tract_category == 'high')]['minority_status'].count()
+		#store total applications by tract type for use in graphing
+		self.total_app_count_low = app_2013[app_2013.minority_tract_category == 'low']['minority_status'].count()
+		self.total_app_count_middle = app_2013[app_2013.minority_tract_category == 'middle']['minority_status'].count()
+		self.total_app_count_upper = app_2013[app_2013.minority_tract_category == 'upper']['minority_status'].count()
+		self.total_app_count_high = app_2013[app_2013.minority_tract_category == 'high']['minority_status'].count()
+		#store total originations by tract type fo use in graphing
+		self.total_orig_count_low = orig_2013[orig_2013.minority_tract_category == 'low']['minority_status'].count()
+		self.total_orig_count_middle = orig_2013[orig_2013.minority_tract_category == 'middle']['minority_status'].count()
+		self.total_orig_count_upper = orig_2013[orig_2013.minority_tract_category == 'upper']['minority_status'].count()
+		self.total_orig_count_high= orig_2013[orig_2013.minority_tract_category == 'high']['minority_status'].count()
 
-		#origination rates to minorities
-		print "origination rates to minorities by tract category", "*"*20
-		print "low:", self.min_app_count_low / float(self.min_orig_count_low)
+		#percent of applications submitted by minorities
+		print "\npercent of applications by minorities in tract category\n", "*"*20
+		print "low:", round((self.min_app_count_low / float(self.total_app_count_low)*100),2)
+		print "middle:", round((self.min_app_count_middle / float(self.total_app_count_middle)*100),2)
+		print "upper:", round((self.min_app_count_upper / float(self.total_app_count_upper)*100),2)
+		print "high:", round((self.min_app_count_high / float(self.total_app_count_high)*100),2)
+		#percent of originations to minority status borrowers
+		print "\npercent of originations to minorities by tract category\n", "*"*20
+		print "low:", round((self.min_orig_count_low / float(self.total_orig_count_low)*100),2)
+		print "middle:", round((self.min_orig_count_middle/ float(self.total_orig_count_middle)*100),2)
+		print "upper:", round((self.min_orig_count_upper / float(self.total_orig_count_upper)*100),2)
+		print "high:", round((self.min_orig_count_high / float(self.total_orig_count_high)*100),2)
+		#approval rate on minority applications
+		print "\napproval rate on minority loans by tract category\n", "*"*20
+		print "low:", round((self.min_orig_count_low / float(self.min_app_count_low)*100),2)
+		print "middle:", round((self.min_orig_count_middle / float(self.min_app_count_middle)*100),2)
+		print "upper:", round((self.min_orig_count_upper / float(self.min_app_count_upper)*100),2)
+		print "high:", round((self.min_orig_count_high / float(self.min_app_count_high)*100),2)
+
+
 		'''
 		#determine minority and non-minority approval rates for the MSA
 		base_percent_orig =  round((orig_count_2013/float(app_count_2013)*100),2)
