@@ -182,7 +182,6 @@ class call_2011(year_calls):
 		#print app_count_2011, "application count" #applications include originations, because they were applications too!
 		#print round((orig_count_2011/float(app_count_2011))*100,2), "approval percent"
 
-
 		#get data for data frame
 		SQL = self.query.originations2011()
 		cur.execute(SQL)
@@ -254,7 +253,6 @@ class call_2012(year_calls):
 		app_count_2012 = cur.fetchone()[0]
 		#print app_count_2012, "application count" #applications include originations, because they were applications too!
 		#print round((orig_count_2012/float(app_count_2012))*100,2), "approval percent"
-
 
 		#get data for data frame
 		SQL = self.query.originations2012()
