@@ -22,8 +22,8 @@ class parse_inputs(AD_report):
 		a_race = []
 		co_race = []
 		#fill race lists from the demographics class
-		a_race = demo.co_race_list(row)
-		co_race = demo.a_race_list(row)
+		a_race = demo.a_race_list(row)
+		co_race = demo.co_race_list(row)
 
 		#add data elements to dictionary
 		self.inputs['a ethn'] = row[1][13]
