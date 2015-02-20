@@ -15,18 +15,36 @@ from years_of_milwaukee import call_2010
 from years_of_milwaukee import call_2011
 from years_of_milwaukee import call_2012
 from years_of_milwaukee import call_2013
+from years_of_milwaukee import call_tracts_2013 as tracts_2013
+from years_of_milwaukee import call_tracts_2012 as tracts_2012
+from years_of_milwaukee import call_tracts_2011 as tracts_2011
+from years_of_milwaukee import call_tracts_2010 as tracts_2010
+from years_of_milwaukee import call_tracts_2009 as tracts_2009
 #instantiate classes
 #geo = geo_aggregator() #disabled geo_aggregator as it has been used and is not needed
 query = queries()
 connect = connect_DB()
 parse = parse_inputs()
 
+#instantiate year classes for baseline
 mil_2009 = call_2009()
 mil_2010 = call_2010()
 mil_2011 = call_2011()
 mil_2012 = call_2012()
 mil_2013 = call_2013()
 
+#instantiate tract classes for tract groups
+tract_2013 = tracts_2013()
+tract_2012 = tracts_2012()
+tract_2011 = tracts_2011()
+tract_2010 = tracts_2010()
+tract_2009 = tracts_2009()
+
+tract_2013.descriptors_2013()
+tract_2012.descriptors_2012()
+tract_2011.descriptors_2011()
+tract_2010.descriptors_2010()
+tract_2009.descriptors_2009()
 #open credentials to access database
 #cur = connect.connect()
 print "\n"
@@ -59,7 +77,7 @@ Filtered lending activity in MSA 33340
 2012: applications , originations , approval percent =
 2013: applications , originations , approval percent =
 '''
-
+'''
 mil_2009.descriptors_2009()
 print "\n"
 mil_2010.descriptors_2010()
@@ -69,18 +87,17 @@ print "\n"
 mil_2012.descriptors_2012()
 print "\n"
 mil_2013.descriptors_2013()
+
 #initialize lists of minority and non-minority approval rates for graphing
 min_approvals = [0, mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
 nonmin_approvals = [0, mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
-#years = [2009, 2010, 2011, 2012, 2013]
-
-years = [0,1,2,3,4,5]
+years = [2009, 2010, 2011, 2012, 2013]
 years2 = ['0', '2009', '2010', '2011', '2012', '2013']
 #plt.plot(x, y, label)
 axes = figure().add_subplot(111)
 a = axes.get_xticks().tolist()
 a = years2
-axes.set_xticklabels(a)
+axes.set_xticklabels(years2)
 plt.plot(years, min_approvals, marker = 'o', color = 'r', label = 'minority approval rate')
 plt.plot(years, nonmin_approvals, label='non-minority approval rate')
 plt.ylabel('approval rate')
@@ -88,6 +105,30 @@ plt.title('Approval Rates by Minority Status')
 plt.legend()
 plt.ylim((0,100))
 plt.show()
+'''
+#change this to # of applications by minorities
+#label bins!
+#minority application count by tract category
+app_count_low = [tract_2009.min_app_count_low, tract_2010.min_app_count_low, tract_2011.min_app_count_low, tract_2012.min_app_count_low, tract_2013.min_app_count_low]
+app_count_mid = [tract_2009.min_app_count_middle, tract_2010.min_app_count_middle, tract_2011.min_app_count_middle, tract_2012.min_app_count_middle, tract_2013.min_app_count_middle]
+app_count_upper =[tract_2009.min_app_count_upper, tract_2010.min_app_count_upper, tract_2011.min_app_count_upper, tract_2012.min_app_count_upper, tract_2013.min_app_count_upper]
+app_count_high = [tract_2009.min_app_count_high, tract_2010.min_app_count_high, tract_2011.min_app_count_high, tract_2012.min_app_count_high, tract_2013.min_app_count_high]
+years = [2009, 2010, 2011, 2012, 2013]
+years2 = ['2009',' ', '2010',' ', '2011',' ', '2012',' ', '2013']
+axes = figure().add_subplot(111)
+#a = axes.get_xticks().tolist()
+a = years2
+axes.set_xticklabels(a)
+plt.plot(years, app_count_low, marker = 'o', color = 'b', label= 'low minority')
+plt.plot(years, app_count_mid, marker = 'o', color = 'r', label = 'middle minority')
+plt.plot(years, app_count_upper, marker = 'o', label = 'upper minority')
+plt.plot(years, app_count_high, marker = 'o', label = 'high minority')
+plt.title('Minority application counts by tract category')
+plt.ylabel('count')
+plt.legend()
+plt.show()
+#baseline graph
+
 '''
 #select MSA and build geo dictionary
 #this was run for each year 2009-2013

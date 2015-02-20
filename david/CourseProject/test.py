@@ -47,19 +47,6 @@ class call_tracts_2013(year_calls):
 	def descriptors_2013(self):
 		cur = self.connect.connect()
 		print "Begin 2013 descriptors\n", "*"*30
-		#print "\nMSA baseline application and origination counts\n", "*"*20
-		SQL = self.query.count_originations_2013() #set qeury text to pull the count of originations
-		cur.execute(SQL) #execute the query
-		orig_count_2013 = cur.fetchone()[0] #pull the tuple from the cursor
-		#print orig_count_2013, "origination count"
-
-		SQL = self.query.count_applications_2013() #set query text to pull the count of applications
-		cur.execute(SQL) #execute the query
-		app_count_2013 = cur.fetchone()[0] #set the tuple from the cursor
-		#print app_count_2013, "application count" #applications include originations, because they were applications too!
-		#print round((orig_count_2013/float(app_count_2013))*100,2), "approval percent"
-
-
 		#get data for data frame
 		SQL = self.query.originations2013() #set query text
 		cur.execute(SQL) #execute query against the database
@@ -93,8 +80,6 @@ class call_tracts_2013(year_calls):
 			tract_cat.append(self.parse.inputs['minority_tract_category'])
 		app_2013['minority_status'] = minority_status #add minority status list data to the dataframe
 		app_2013['minority_tract_category'] = tract_cat
-		#print app_2013.groupby('minority_tract_category').head(40)
-		#print app_2013[['minority_tract_category', 'minority_population_pct']]
 
 		#need counts of tracts in each minority percent category - get from sql with a distinct query?
 		print "\napplication count by minority tract category\n", "*"*20
@@ -103,12 +88,13 @@ class call_tracts_2013(year_calls):
 		print "\norigination count by minority tract category\n", "*"*20
 		print orig_2013.groupby('minority_tract_category').minority_tract_category.count() #print the count of originations by tract category
 
+		#fill tract counts to build list
 		for tract in orig_2013.groupby('minority_tract_category').minority_tract_category.count():
 			self.orig_by_tract_minority_category.append(tract) #fills the count of originations by tract category
 		for tract in app_2013.groupby('minority_tract_category').minority_tract_category.count():
 			self.app_by_tract_minority_category.append(tract) #fills the count of applicaitons by tract category
 
-
+		#fill list of approval (origination) rates for use in graphing
 		for i in range(0,4):
 			self.tract_orig_rates.append(round((self.orig_by_tract_minority_category[i]/float(self.app_by_tract_minority_category[i])*100),2))
 
@@ -117,6 +103,8 @@ class call_tracts_2013(year_calls):
 		print "middle:", self.tract_orig_rates[2]
 		print "upper:", self.tract_orig_rates[3]
 		print "high:", self.tract_orig_rates[0]
+
+		#store variables for passing back to class
 		#store minority application counts in the class object for use in graphing
 		self.min_app_count_low = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'low')]['minority_status'].count()
 		self.min_app_count_middle = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'middle')]['minority_status'].count()
@@ -138,6 +126,7 @@ class call_tracts_2013(year_calls):
 		self.total_orig_count_upper = orig_2013[orig_2013.minority_tract_category == 'upper']['minority_status'].count()
 		self.total_orig_count_high= orig_2013[orig_2013.minority_tract_category == 'high']['minority_status'].count()
 
+		#output section
 		#percent of applications submitted by minorities
 		print "\npercent of applications by minorities in tract category\n", "*"*20
 		print "low:", round((self.min_app_count_low / float(self.total_app_count_low)*100),2)
@@ -158,29 +147,6 @@ class call_tracts_2013(year_calls):
 		print "high:", round((self.min_orig_count_high / float(self.min_app_count_high)*100),2)
 
 
-		'''
-		#determine minority and non-minority approval rates for the MSA
-		base_percent_orig =  round((orig_count_2013/float(app_count_2013)*100),2)
-		#percent of originations that are to minorities
-		percent_originations_to_minorities = round((orig_2013.minority_status.value_counts()[1]/float(orig_count_2013)*100),2)
-		#percent of applications by minorities
-		minority_application_percent = round((app_2013.minority_status.value_counts()[1]/float(app_count_2013)*100),2)
-		#percent of minority applications approved
-		self.minority_approval_rate = round((orig_2013.minority_status.value_counts()[1]/float(app_2013.minority_status.value_counts()[1])*100),2)
-		#approval rate for non-minority status loans
-		self.nonminority_approval_rate  = round((orig_2013.minority_status.value_counts()[0]/float(app_2013.minority_status.value_counts()[0])*100),2)
-
-		#format for commas and percents
-		#http://quickfacts.census.gov/qfd/states/55/55079.html for % minority in 2013
-		print "In Milwaukee during 2013 there were %s total applications, %s total originations, giving a %s orignation rate" %(app_count_2013, orig_count_2013, base_percent_orig)
-		print "Minorities submitted %s applications, received %s originations giving an origination rate of %s" %(app_2013.minority_status.value_counts()[1], orig_2013.minority_status.value_counts()[1], self.minority_approval_rate)
-		print "Minorities accounted for %s percent of applications, %s percent of originations, and represent 53.4 percent of the MSAs population" %(minority_application_percent, percent_originations_to_minorities)
-		print "Non-minority origination rate was %s percent" % (self.nonminority_approval_rate)
-		#print total originations, minority originations, minority origination percent
-		#print total approvals, minority approvals, % of approvals that are minority
-		#print % applications minority, % approvals minority, % minoritypopulation
-		#print total approval rate, minority approval rate, non-minority approval rate
-		'''
 tracts_2013 = call_tracts_2013()
 
 tracts_2013.descriptors_2013()
