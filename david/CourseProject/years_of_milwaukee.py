@@ -929,6 +929,7 @@ class call_tracts_2009(year_calls):
 		self.min_orig_count_middle = orig_2009[(orig_2009.minority_status ==1)& (orig_2009.minority_tract_category == 'middle')]['minority_status'].count()
 		self.min_orig_count_upper = orig_2009[(orig_2009.minority_status ==1)& (orig_2009.minority_tract_category == 'upper')]['minority_status'].count()
 		self.min_orig_count_high= orig_2009[(orig_2009.minority_status ==1)& (orig_2009.minority_tract_category == 'high')]['minority_status'].count()
+
 		#store total applications by tract type for use in graphing
 		self.total_app_count_low = app_2009[app_2009.minority_tract_category == 'low']['minority_status'].count()
 		self.total_app_count_middle = app_2009[app_2009.minority_tract_category == 'middle']['minority_status'].count()

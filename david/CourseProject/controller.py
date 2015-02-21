@@ -90,11 +90,10 @@ mil_2013.descriptors_2013()
 
 #initialize lists of minority and non-minority approval rates for graphing
 #baseline graph
-min_approvals = [0, mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
-nonmin_approvals = [0, mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
+min_approvals = [mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
+nonmin_approvals = [mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
 years = [2009, 2010, 2011, 2012, 2013]
-years2 = ['0', '2009', '2010', '2011', '2012', '2013']
-#plt.plot(x, y, label)
+years2 = [2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013']
 axes = figure().add_subplot(111)
 a = axes.get_xticks().tolist()
 a = years2
@@ -107,15 +106,88 @@ plt.legend()
 plt.ylim((0,100))
 plt.show()
 '''
-#change this to # of applications by minorities
-#label bins!
-#minority application count by tract category
+
+#set total applications by year to lists
+total_app_low = [tract_2009.total_app_count_low, tract_2010.total_app_count_low, tract_2011.total_app_count_low, tract_2012.total_app_count_low, tract_2013.total_app_count_low]
+total_app_mid = [tract_2009.total_app_count_middle, tract_2010.total_app_count_middle, tract_2011.total_app_count_middle, tract_2012.total_app_count_middle, tract_2013.total_app_count_middle]
+total_app_upper = [tract_2009.total_app_count_upper, tract_2010.total_app_count_upper, tract_2011.total_app_count_upper, tract_2012.total_app_count_upper, tract_2013.total_app_count_upper]
+total_app_high = [tract_2009.total_app_count_high, tract_2010.total_app_count_high, tract_2011.total_app_count_high, tract_2012.total_app_count_high, tract_2013.total_app_count_high]
+#set total originations by year to lists
+total_orig_low = [tract_2009.total_orig_count_low, tract_2010.total_orig_count_low, tract_2011.total_orig_count_low, tract_2012.total_orig_count_low, tract_2013.total_orig_count_low]
+total_orig_mid = [tract_2009.total_orig_count_middle, tract_2010.total_orig_count_middle, tract_2011.total_orig_count_middle, tract_2012.total_orig_count_middle, tract_2013.total_orig_count_middle]
+total_orig_upper = [tract_2009.total_orig_count_upper, tract_2010.total_orig_count_upper, tract_2011.total_orig_count_upper, tract_2012.total_orig_count_upper, tract_2013.total_orig_count_upper]
+total_orig_high = [tract_2009.total_orig_count_high, tract_2010.total_orig_count_high, tract_2011.total_orig_count_high, tract_2012.total_orig_count_high, tract_2013.total_orig_count_high]
+
+#set minority origination counts by year to lists
+orig_count_low = [tract_2009.min_orig_count_low, tract_2010.min_orig_count_low, tract_2011.min_orig_count_low, tract_2012.min_orig_count_low, tract_2013.min_orig_count_low]
+orig_count_mid = [tract_2009.min_orig_count_middle, tract_2010.min_orig_count_middle, tract_2011.min_orig_count_middle, tract_2012.min_orig_count_middle, tract_2013.min_orig_count_middle]
+orig_count_upper =[tract_2009.min_orig_count_upper, tract_2010.min_orig_count_upper, tract_2011.min_orig_count_upper, tract_2012.min_orig_count_upper, tract_2013.min_orig_count_upper]
+orig_count_high = [tract_2009.min_orig_count_high, tract_2010.min_orig_count_high, tract_2011.min_orig_count_high, tract_2012.min_orig_count_high, tract_2013.min_orig_count_high]
+#set minority application counts by year to lists
 app_count_low = [tract_2009.min_app_count_low, tract_2010.min_app_count_low, tract_2011.min_app_count_low, tract_2012.min_app_count_low, tract_2013.min_app_count_low]
 app_count_mid = [tract_2009.min_app_count_middle, tract_2010.min_app_count_middle, tract_2011.min_app_count_middle, tract_2012.min_app_count_middle, tract_2013.min_app_count_middle]
 app_count_upper =[tract_2009.min_app_count_upper, tract_2010.min_app_count_upper, tract_2011.min_app_count_upper, tract_2012.min_app_count_upper, tract_2013.min_app_count_upper]
 app_count_high = [tract_2009.min_app_count_high, tract_2010.min_app_count_high, tract_2011.min_app_count_high, tract_2012.min_app_count_high, tract_2013.min_app_count_high]
-years = [2009, 2010, 2011, 2012, 2013]
-years2 = ['2009',' ', '2010',' ', '2011',' ', '2012',' ', '2013']
+#calculate the application count for non-minorities
+non_app_count_low = [total_app_low[i] - app_count_low[i] for i in range(0, len(app_count_low))]
+non_app_count_mid = [total_app_mid[i] - app_count_mid[i] for i in range(0, len(app_count_mid))]
+non_app_count_upper = [total_app_upper[i] - app_count_upper[i] for i in range(0, len(app_count_upper))]
+non_app_count_high = [total_app_high[i] - app_count_high[i] for i in range(0, len(app_count_high))]
+#calculate the origination count for non-minorities
+non_orig_count_low = [total_orig_low[i] - orig_count_low[i] for i in range(0, len(orig_count_low))]
+non_orig_count_mid = [total_orig_mid[i] - orig_count_mid[i] for i in range(0, len(orig_count_mid))]
+non_orig_count_upper = [total_orig_upper[i] - orig_count_upper[i] for i in range(0, len(orig_count_upper))]
+non_orig_count_high = [total_orig_high[i] - orig_count_high[i] for i in range(0, len(orig_count_high))]
+#calculate non-minority approval rate for each tract category and add to a list
+non_min_approvals_low = [round((non_orig_count_low[i] / float(non_app_count_low[i])*100),2) for i in range(0,len(non_app_count_low))]
+non_min_approvals_mid = [round((non_orig_count_mid[i] / float(non_app_count_mid[i])*100),2) for i in range(0,len(non_app_count_mid))]
+non_min_approvals_upper = [round((non_orig_count_upper[i] / float(non_app_count_upper[i])*100),2) for i in range(0,len(non_app_count_upper))]
+non_min_approvals_high = [round((non_orig_count_high[i] / float(non_app_count_high[i])*100),2) for i in range(0,len(non_app_count_high))]
+#calculate minority approval rate for each tract category and add to a list
+minority_approvals_low = [round((orig_count_low[i] / float(app_count_low[i])*100),2) for i in range(0,len(app_count_low))]
+minority_approvals_mid = [round((orig_count_mid[i] / float(app_count_mid[i])*100),2) for i in range(0,len(app_count_mid))]
+minority_approvals_upper = [round((orig_count_upper[i] / float(app_count_upper[i])*100),2) for i in range(0,len(app_count_upper))]
+minority_approvals_high = [round((orig_count_high[i] / float(app_count_high[i])*100),2) for i in range(0,len(app_count_high))]
+#calculate percent of originations that were to minorities
+min_orig_pct_low = [round((orig_count_low[i] / float(total_orig_low[i])*100),2) for i in range(0,len(total_orig_low))]
+min_orig_pct_mid = [round((orig_count_mid[i] / float(total_orig_mid[i])*100),2) for i in range(0,len(total_orig_mid))]
+min_orig_pct_upper = [round((orig_count_upper[i] / float(total_orig_upper[i])*100),2) for i in range(0,len(total_orig_upper))]
+min_orig_pct_high = [round((orig_count_high[i] / float(total_orig_high[i])*100),2) for i in range(0,len(total_orig_high))]
+#calculate percent of applications that were by minorities
+min_app_pct_low = [round((app_count_low[i] / float(total_app_low[i])*100),2) for i in range(0,len(total_app_low))]
+min_app_pct_mid = [round((app_count_mid[i] / float(total_app_mid[i])*100),2) for i in range(0,len(total_app_mid))]
+min_app_pct_upper = [round((app_count_upper[i] / float(total_app_upper[i])*100),2) for i in range(0,len(total_app_upper))]
+min_app_pct_high = [round((app_count_high[i] / float(total_app_high[i])*100),2) for i in range(0,len(total_app_high))]
+
+years = [2009, 2010, 2011, 2012, 2013] #x axis for graphs
+years2 = ['2009',' ', '2010',' ', '2011',' ', '2012',' ', '2013'] #use spaces between numbers to fix tick labels on graphs
+#non minority approval rate
+
+#% of originations to minorities
+axes = figure().add_subplot(111)
+axes.set_xticklabels(years2)
+plt.plot(years, min_orig_pct_low, marker = 'o', color = 'b', label= 'low minority')
+plt.plot(years, min_orig_pct_mid, marker = 'o', color = 'r', label = 'middle minority')
+plt.plot(years, min_orig_pct_upper, marker = 'o', color = 'k', label = 'upper minority')
+plt.plot(years, min_orig_pct_high, marker = 'o', color = 'g', label = 'high minority')
+plt.title('Percent of originations to minorities')
+plt.ylabel('percent')
+plt.legend()
+plt.show()
+
+#%of applications by minorities
+axes = figure().add_subplot(111)
+axes.set_xticklabels(years2)
+plt.plot(years, min_app_pct_low, marker = 'o', color = 'b', label= 'low minority')
+plt.plot(years, min_app_pct_mid, marker = 'o', color = 'r', label = 'middle minority')
+plt.plot(years, min_app_pct_upper, marker = 'o', color = 'k', label = 'upper minority')
+plt.plot(years, min_app_pct_high, marker = 'o', color = 'g', label = 'high minority')
+plt.title('Percent of applications by minorities')
+plt.ylabel('percent')
+plt.legend()
+plt.show()
+
+#minority application count by tract category
 axes = figure().add_subplot(111)
 a = years2
 axes.set_xticklabels(a)
@@ -128,11 +200,8 @@ plt.ylabel('count')
 plt.legend()
 plt.show()
 
+
 #minority origination count by tract category
-orig_count_low = [tract_2009.min_orig_count_low, tract_2010.min_orig_count_low, tract_2011.min_orig_count_low, tract_2012.min_orig_count_low, tract_2013.min_orig_count_low]
-orig_count_mid = [tract_2009.min_orig_count_middle, tract_2010.min_orig_count_middle, tract_2011.min_orig_count_middle, tract_2012.min_orig_count_middle, tract_2013.min_orig_count_middle]
-orig_count_upper =[tract_2009.min_orig_count_upper, tract_2010.min_orig_count_upper, tract_2011.min_orig_count_upper, tract_2012.min_orig_count_upper, tract_2013.min_orig_count_upper]
-orig_count_high = [tract_2009.min_orig_count_high, tract_2010.min_orig_count_high, tract_2011.min_orig_count_high, tract_2012.min_orig_count_high, tract_2013.min_orig_count_high]
 axes = figure().add_subplot(111)
 a = years2
 axes.set_xticklabels(a)
@@ -146,14 +215,6 @@ plt.legend()
 plt.show()
 
 #minority approval rate
-minority_approvals_low = [round((orig_count_low[i] / float(app_count_low[i])*100),2) for i in range(0,len(app_count_low))]
-minority_approvals_mid = [round((orig_count_mid[i] / float(app_count_mid[i])*100),2) for i in range(0,len(app_count_mid))]
-minority_approvals_upper = [round((orig_count_upper[i] / float(app_count_upper[i])*100),2) for i in range(0,len(app_count_upper))]
-minority_approvals_high = [round((orig_count_high[i] / float(app_count_high[i])*100),2) for i in range(0,len(app_count_high))]
-orig_count_low = [tract_2009.min_orig_count_low, tract_2010.min_orig_count_low, tract_2011.min_orig_count_low, tract_2012.min_orig_count_low, tract_2013.min_orig_count_low]
-orig_count_mid = [tract_2009.min_orig_count_middle, tract_2010.min_orig_count_middle, tract_2011.min_orig_count_middle, tract_2012.min_orig_count_middle, tract_2013.min_orig_count_middle]
-orig_count_upper =[tract_2009.min_orig_count_upper, tract_2010.min_orig_count_upper, tract_2011.min_orig_count_upper, tract_2012.min_orig_count_upper, tract_2013.min_orig_count_upper]
-orig_count_high = [tract_2009.min_orig_count_high, tract_2010.min_orig_count_high, tract_2011.min_orig_count_high, tract_2012.min_orig_count_high, tract_2013.min_orig_count_high]
 axes = figure().add_subplot(111)
 a = years2
 axes.set_xticklabels(a)
@@ -166,7 +227,7 @@ plt.ylabel('percent')
 plt.legend()
 plt.show()
 
-#non minority approval rate
+
 
 '''
 #select MSA and build geo dictionary
