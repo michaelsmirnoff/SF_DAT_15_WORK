@@ -16,10 +16,10 @@ These are my observations, comments and questions:
 - obviously you broke the loops up into three data files in light of the data volume.
 
 - i ran flare_prediction.py locally and got (1st set) plots of:
-[Zurich Class vs Count](https://www.dropbox.com/s/3areqg1h9mb8m4d/ZClassVCount.png?dl=0)
-[Penumbra Class vs Count](https://www.dropbox.com/s/os3raqrm9i104xo/PvalueVCount.png?dl=0)
-[Compactness Class vs Count](https://www.dropbox.com/s/dx8ry1j3r5ai400/CompactVCount.png?dl=0)
-[X-ray Class Vs Count](https://www.dropbox.com/s/0w564qdpn0t4a9v/X-rayClassVCount.png?dl=0)
+[Zurich Class vs Count](https://www.dropbox.com/s/a6d5l7mvgu7m1l4/ZClassVCount.png?dl=0)
+[Penumbra Class vs Count](https://www.dropbox.com/s/xb4ifrkeicwugo7/PvalueVCount.png?dl=0)
+[Compactness Class vs Count](https://www.dropbox.com/s/omxga02p76v63ua/CompactVCount.png?dl=0)
+[X-ray Class Vs Count](https://www.dropbox.com/s/66oib72nj4gamtq/X-rayClassVCount.png?dl=0)
 
 This is a great project with code (that works)...as i went through it i could think of myriad real-life business cases.  If the senate can get the votes to override Obama's Keystone Pipeline veto, you will have a clear opportunity.  : ))
 
