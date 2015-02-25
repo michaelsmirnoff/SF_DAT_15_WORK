@@ -2,6 +2,7 @@
 #import libraries
 import json
 import psycopg2
+import psycopg2.extras
 from DAT4_library import queries
 #from geo_aggregator_2013 import geo_aggregator
 from DAT4_library import connect_DB
@@ -40,6 +41,26 @@ tract_2011 = tracts_2011()
 tract_2010 = tracts_2010()
 tract_2009 = tracts_2009()
 
+#get dataframe for union of all databases
+cur = connect.connect()
+SQL = query.all_years_union()
+cur.execute(SQL)
+all_dbs = pd.DataFrame(cur.fetchall(), columns = tract_2009.HMDA_cols) #hot do i reference HMDA cols from an object?
+#change year variables to HMDA variables
+all_dbs['minority_status'] = 0 #initialize series in dataframe
+all_dbs['minority_tract_category'] = 0
+tract_cat = [] #create a list to store tract minority percent categories
+minority_status = [] #create a list to store minority flags
+for row in all_dbs.iterrows():
+	parse.parse(row) #parse database rows to determine minority status
+	minority_status.append(parse.inputs['minority status']) #append minority flag
+	tract_cat.append(parse.inputs['minority_tract_category']) #fill the list with flags
+all_dbs['minority_status'] = minority_status #input minority flags into the dataframe
+all_dbs['minority_tract_category'] = tract_cat
+
+print all_dbs.head()
+
+#get descriptive data from tract categories
 tract_2013.descriptors_2013()
 tract_2012.descriptors_2012()
 tract_2011.descriptors_2011()
@@ -47,6 +68,8 @@ tract_2010.descriptors_2010()
 tract_2009.descriptors_2009()
 #open credentials to access database
 #cur = connect.connect()
+
+
 print "\n"
 #get counts for loops: applications and originations for 2009-2013
 '''data have been filtered as follows
@@ -106,7 +129,6 @@ plt.legend()
 plt.ylim((0,100))
 plt.show()
 '''
-
 #set total applications by year to lists
 total_app_low = [tract_2009.total_app_count_low, tract_2010.total_app_count_low, tract_2011.total_app_count_low, tract_2012.total_app_count_low, tract_2013.total_app_count_low]
 total_app_mid = [tract_2009.total_app_count_middle, tract_2010.total_app_count_middle, tract_2011.total_app_count_middle, tract_2012.total_app_count_middle, tract_2013.total_app_count_middle]
@@ -160,8 +182,24 @@ min_app_pct_upper = [round((app_count_upper[i] / float(total_app_upper[i])*100),
 min_app_pct_high = [round((app_count_high[i] / float(total_app_high[i])*100),2) for i in range(0,len(total_app_high))]
 
 years = [2009, 2010, 2011, 2012, 2013] #x axis for graphs
-years2 = ['2009',' ', '2010',' ', '2011',' ', '2012',' ', '2013'] #use spaces between numbers to fix tick labels on graphs
-#non minority approval rate
+years2 = ['2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013'] #use spaces between numbers to fix tick labels on graphs
+print "\n2010 non min approval rates\n", "*"*20
+print non_min_approvals_high, "high"
+print non_min_approvals_upper, "upper"
+print non_min_approvals_mid, "mid"
+print non_min_approvals_low, "low"
+#non-minority approval rate
+axes = figure().add_subplot(111)
+axes.set_xticklabels(years2)
+plt.plot(years, non_min_approvals_low, marker = 'o', color = 'b', label= 'low minority')
+plt.plot(years, non_min_approvals_mid, marker = 'o', color = 'r', label = 'middle minority')
+plt.plot(years, non_min_approvals_upper, marker = 'o', color = 'k', label = 'upper minority')
+plt.plot(years, non_min_approvals_high, marker = 'o', color = 'g', label = 'high minority')
+plt.title('Non-minority approval rates')
+plt.ylabel('percent')
+plt.ylim((0,100))
+plt.legend()
+plt.show()
 
 #% of originations to minorities
 axes = figure().add_subplot(111)
@@ -173,6 +211,7 @@ plt.plot(years, min_orig_pct_high, marker = 'o', color = 'g', label = 'high mino
 plt.title('Percent of originations to minorities')
 plt.ylabel('percent')
 plt.legend()
+plt.ylim((0,100))
 plt.show()
 
 #%of applications by minorities
@@ -184,6 +223,7 @@ plt.plot(years, min_app_pct_upper, marker = 'o', color = 'k', label = 'upper min
 plt.plot(years, min_app_pct_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Percent of applications by minorities')
 plt.ylabel('percent')
+plt.ylim((0,100))
 plt.legend()
 plt.show()
 
@@ -199,7 +239,6 @@ plt.title('Minority application counts by tract category')
 plt.ylabel('count')
 plt.legend()
 plt.show()
-
 
 #minority origination count by tract category
 axes = figure().add_subplot(111)
@@ -226,7 +265,6 @@ plt.title('Minority approval rate by tract category')
 plt.ylabel('percent')
 plt.legend()
 plt.show()
-
 
 
 '''

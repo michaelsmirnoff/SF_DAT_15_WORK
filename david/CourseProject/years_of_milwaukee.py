@@ -450,6 +450,9 @@ class call_tracts_2013(year_calls):
 		print "high:", self.tract_orig_rates[0]
 
 		#store variables for passing back to class
+		#pass income lists back to class
+		#self.income = []
+		#self.income_low = app_2013[app_2013.minority_tract_category == 'low'].applicantincome.mean()
 		#store minority application counts in the class object for use in graphing
 		self.min_app_count_low = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'low')]['minority_status'].count()
 		self.min_app_count_middle = app_2013[(app_2013.minority_status == 1) & (app_2013.minority_tract_category == 'middle')]['minority_status'].count()
