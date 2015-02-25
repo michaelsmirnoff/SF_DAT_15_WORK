@@ -6,8 +6,8 @@ class geo_aggregator(object):
 		#for all MSAs in the HMDA file
 		self.geo_dictionary = {
 						"MSAs":[
-								]
-							}
+							]
+					}
 
 	def main(self, cred_list, MSA_list):
 			#import psycopg2 to access SQL servers
