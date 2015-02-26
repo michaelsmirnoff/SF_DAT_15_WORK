@@ -1,0 +1,1 @@
+Hey Steve.  The idea for the project and data sources look great.  However, I'd like to see a bit more fleshed out with the modeling approach and data cleaning.  It's hard to provide more detailed feedback without seeing specific code.  Please feel free to Slack me if you need any help with anything, specifically the coding or development process.
