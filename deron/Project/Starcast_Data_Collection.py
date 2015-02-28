@@ -25,7 +25,6 @@ def get_fundsraised(permalink):
     xparams = {"user_key" : user_key}
     FR_request = requests.get('https://api.crunchbase.com/v/2/organization/%s' % permalink, params=xparams)
     data= json.loads(FR_request.text)
-    data= json.loads(FR_request.text)
     for item in data['data']['properties']:
         if item == 'total_funding_usd':
             return data['data']['properties'][item]
@@ -52,5 +51,18 @@ CodeHS_Num_Employees = get_num_employees('codehs')
 Corp360_Num_Employees = get_num_employees('corporate360')
 Shocase_Num_Employees = get_num_employees('shocase')
 
-# Get # of Press with Angellist API
+# of Funding Rounds
 
+def get_num_FR(permalink):
+    xparams = {"user_key" : user_key}
+    FR_num_request = requests.get('https://api.crunchbase.com/v/2/organization/%s' % permalink, params=xparams)
+    data= json.loads(FR_num_request.text)
+    for item in data['data']['relationships']['funding_rounds']['paging']:
+        if item == 'total_items':
+            return data['data']['relationships']['funding_rounds']['paging'][item]
+
+TheLeague_Num_FR = get_num_FR('the-league')
+Lizhi_Num_FR = get_num_FR('lizhi')
+CodeHS_Num_FR = get_num_FR('codehs')
+Corp360_Num_FR = get_num_FR('corporate360')
+Shocase_Num_FR = get_num_FR('shocase')
