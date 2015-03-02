@@ -103,4 +103,3 @@ Starcast_DataFrame.loc[len(Starcast_DataFrame)] = row
 FundsRaised_Mean = TheLeague_FR + Lizhi_FR + CodeHS_FR + Corp360_FR + Shocase_FR/5
 
 train = pd.DataFrame(data=X_train, columns=['LeagueFundsRaised', 'LizhiFundsRaised', 'CodeHSFundsRaised', 'Corp360FundsRaised', 'ShocaseFundsRaised']
-
