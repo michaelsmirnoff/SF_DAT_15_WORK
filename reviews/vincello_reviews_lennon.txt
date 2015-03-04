@@ -1,0 +1,1 @@
+For Craig: The Naive Bayes implementation looks great even if the logistic regression model isn't giving you the best output yet. Given the number of features you're working with, I'd really like to see what kind of results you get from a random forests classifier. Understanding the different features your predicting on was not easy but the graphics helped a lot.

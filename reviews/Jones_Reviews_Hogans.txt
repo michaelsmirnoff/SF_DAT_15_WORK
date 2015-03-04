@@ -1,0 +1,23 @@
+Kerry Jones Comments :
+
+From my understanding the goal of project:
+The aim of this exploration is to identify correlated indicators for discount rates and potentially use those indicators to predict discount rates
+
+
+1)preprocessing step understandable and clean. Might want to add comments in code to explain why you are doing it. You don’t want someone else to have to look up function descriptions to get an idea of what you are doing. 
+
+2) might want to get some basic statistics of data(mean, median, min/max) for some variables to help get a better idea of the typical observation and the variability
+	Perhaps groupby descriptions for status 
+	Average gross amount, discount, so forth
+	Find the relative frequencies of the categorical data
+	
+
+3) In KNN only use one out of sample example but, it would be interesting if you tried another example to  in an array to verify that your result would be different than 10.  I guess actually do this for both your out of sample trials.
+
+
+4)Perhaps you should partition code into steps or parts, so the reader knows what part of the process is about to come next.
+
+
+5) Im sure you're already thinking of additional models to run but might want to also try using linear regression and decision trees.
+
+6) Overall pretty clean work, its clear and concise.

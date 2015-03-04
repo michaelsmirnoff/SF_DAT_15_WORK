@@ -98,3 +98,9 @@ row = {[TheLeague_FR, TheLeague_Num_Employees, TheLeague_Num_FR, TheLeague_Advis
                                             
 Starcast_DataFrame.loc[len(Starcast_DataFrame)] = row
 
+<<<<<<< HEAD
+=======
+FundsRaised_Mean = TheLeague_FR + Lizhi_FR + CodeHS_FR + Corp360_FR + Shocase_FR/5
+
+train = pd.DataFrame(data=X_train, columns=['LeagueFundsRaised', 'LizhiFundsRaised', 'CodeHSFundsRaised', 'Corp360FundsRaised', 'ShocaseFundsRaised']
+>>>>>>> 8819dede950443cae732a44ef5a900dc5a2b8b8b
