@@ -18,6 +18,7 @@ import requests
 import json
 import time
 import pandas as pd
+import numpy as np
 
 user_key = "2805358bf877c1b680623630187748a5"
 
@@ -84,15 +85,12 @@ CodeHS_Advisors = get_advisors('codehs')
 Corp360_Advisors = get_advisors('corporate360')
 Shocase_Advisors = get_advisors('shocase')
 
-header_names = ['LeagueFundsRaised','LeagueEmployees','LeagueFundingRounds','LeagueAdvisors',\
-           'LizhiFundsRaised','LizhiEmployees','LizhiFudningRounds','LizhiAdvisors',\
-           'CodeHSFundsRaised','CodeHSEmployees','CodeHSFundingRounds','CodeHSAdvisors',\
-           'Corp360FundsRaised','Corp360Employees','Corp360FundingRounds','Corp360Advisors',\
-           'ShocaseFundsRaised','ShocaseEmployees','ShocaseFundingRounds','ShocaseAdvisors']
+header_names = ['FundsRaised', 'Num_Employees', 'FundingRounds', 'Advisors']
                                             
-Starcast_DataFrame = pd.DataFrame(columns=header_names)
+Starcast_DataFrame= pd.DataFrame({'FundsRaised':TheLeague_FR, Lizhi_FR, CodeHS_FR, Corp360_FR, Shocase_FR, 'Num_Employees': TheLeague_Num_Employees, Lizhi_Num_Employees, CodeHS_Num_Employees, Corp360_Num_Employees, Shocase_Num_Employees, 'FundingRounds': TheLeague_Num_FR, Lizhi_Num_FR, CodeHS_Num_FR, Corp360_Num_FR, Shocase_Num_FR, 'Advisors': TheLeague_Advisors, 0, 0, 0, 0})
 
-row = [TheLeague_FR, TheLeague_Num_Employees, TheLeague_Num_FR, TheLeague_Advisors,\
+
+row = {[TheLeague_FR, TheLeague_Num_Employees, TheLeague_Num_FR, TheLeague_Advisors,\
            Lizhi_FR, Lizhi_Num_Employees, Lizhi_Num_FR, 0,\
            CodeHS_FR, CodeHS_Num_Employees, CodeHS_Num_FR, 0,\
            Corp360_FR, Corp360_Num_Employees, Corp360_Num_FR, 0,\
@@ -100,6 +98,9 @@ row = [TheLeague_FR, TheLeague_Num_Employees, TheLeague_Num_FR, TheLeague_Adviso
                                             
 Starcast_DataFrame.loc[len(Starcast_DataFrame)] = row
 
+<<<<<<< HEAD
+=======
 FundsRaised_Mean = TheLeague_FR + Lizhi_FR + CodeHS_FR + Corp360_FR + Shocase_FR/5
 
 train = pd.DataFrame(data=X_train, columns=['LeagueFundsRaised', 'LizhiFundsRaised', 'CodeHSFundsRaised', 'Corp360FundsRaised', 'ShocaseFundsRaised']
+>>>>>>> 8819dede950443cae732a44ef5a900dc5a2b8b8b
