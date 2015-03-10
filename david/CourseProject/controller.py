@@ -66,10 +66,10 @@ all_dbs['minority_tract_category'] = tract_cat
 '''
 #get descriptive data from tract categories
 tract_2013.descriptors_2013()
-#tract_2012.descriptors_2012()
-#tract_2011.descriptors_2011()
-#tract_2010.descriptors_2010()
-#tract_2009.descriptors_2009()
+tract_2012.descriptors_2012()
+tract_2011.descriptors_2011()
+tract_2010.descriptors_2010()
+tract_2009.descriptors_2009()
 #open credentials to access database
 #cur = connect.connect()
 
@@ -200,7 +200,7 @@ print non_min_approvals_upper, "upper"
 print non_min_approvals_mid, "mid"
 print non_min_approvals_low, "low"
 #non-minority approval rate
-'''
+
 axes = figure().add_subplot(111)
 axes.set_xticklabels(years2)
 plt.plot(years, non_min_approvals_low, marker = 'o', color = 'b', label= 'low minority')
@@ -275,9 +275,10 @@ plt.plot(years, minority_approvals_upper, marker = 'o', color = 'k', label = 'up
 plt.plot(years, minority_approvals_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Minority approval rate by tract category')
 plt.ylabel('percent')
+plt.ylim((0,100))
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
-'''
+
 
 '''
 #select MSA and build geo dictionary
@@ -287,14 +288,14 @@ filename = 'MSA_33340_2013' #name the output file
 cred_list = credentials.split(',') #split credential string
 geo.main(cred_list, MSA) #assemble the JSON object
 geo.write_geo_dict(filename) #write the tracts as a JSON object
-
+'''
 #list of file paths on github.com for data retrieval
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2009.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2010.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2011.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2012.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2013.csv
-'''
+
 
 
 
