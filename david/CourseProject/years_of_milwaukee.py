@@ -1,8 +1,14 @@
+import re
 import psycopg2
 from DAT4_library import queries
 from DAT4_library import connect_DB
 from DAT4_library import parse_inputs
 import pandas as pd
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import cross_val_score
 class year_calls(object):
 
 	def __init__(self):
@@ -18,7 +24,8 @@ class call_2009(year_calls):
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
 					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
 					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+					'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2009(self):
 		cur = self.connect.connect()
 		print "Begin 2009 descriptors\n", "*"*30
@@ -91,9 +98,10 @@ class call_2010(year_calls):
 		self.minority_approval_rate = 0
 		self.nonminority_approval_rate = 0
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2010(self):
 		cur = self.connect.connect()
 		print "Begin 2010 descriptors\n", "*"*30
@@ -164,9 +172,10 @@ class call_2011(year_calls):
 		self.minority_approval_rate = 0
 		self.nonminority_approval_rate = 0
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2011(self):
 		cur = self.connect.connect()
 		print "Begin 2011 descriptors\n", "*"*30
@@ -236,9 +245,10 @@ class call_2012(year_calls):
 		self.minority_approval_rate = 0
 		self.nonminority_approval_rate = 0
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2012(self):
 		cur = self.connect.connect()
 		print "Begin 2012 descriptors\n", "*"*30
@@ -308,9 +318,10 @@ class call_2013(year_calls):
 		self.minority_approval_rate = 0
 		self.nonminority_approval_rate = 0
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2013(self):
 		cur = self.connect.connect()
 		print "Begin 2013 descriptors\n", "*"*30
@@ -386,9 +397,9 @@ class call_tracts_2013(year_calls):
 		#order of tract_orig_rates list: high, low, middle, upper
 		self.nonminority_approval_rate = 0 #establishes a variable to hold rates for graphing
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
 	def descriptors_2013(self):
 		cur = self.connect.connect()
 		print "Begin 2013 descriptors\n", "*"*30
@@ -425,7 +436,42 @@ class call_tracts_2013(year_calls):
 			tract_cat.append(self.parse.inputs['minority_tract_category'])
 		app_2013['minority_status'] = minority_status #add minority status list data to the dataframe
 		app_2013['minority_tract_category'] = tract_cat
+		#process data to create binary output values and replace NAs
+		app_2013['origination_status'] = np.where(app_2013.actiontype =='1', 1, 0) #convert 1-4 to binary. 1 = origination
+		app_2013.applicantincome.replace(to_replace=0, value=app_2013.applicantincome.median(), inplace = True)
+		#create a dataframe for the logistic regression, goal is to determine the weight of minority status and minorty tract pct
+		LogRegCols = ['minority_status', 'applicantincome', 'loanamount', 'hud_median_family_income', 'minority_population_pct']
+		X = app_2013[LogRegCols]
+		y = app_2013.origination_status
+		#X.tract_to_msa_md_income.map(lambda x: float(x) if  re.match('\d+', x) else None)
+		print X.head()
+		X.fillna(value=np.median)
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .3, random_state =1)
 
+		#convert to a datafram for 'convenience'
+		train = pd.DataFrame(data=X_train, columns=LogRegCols)
+		train['origination_status'] = y_train
+		test = pd.DataFrame(data=X_test, columns = LogRegCols)
+		test['origination_status'] = y_test
+
+		LR = LogisticRegression()
+		LR.fit(X_train, y_train)
+
+		B1 = LR.coef_[0]
+		coefs = [np.exp(x) for x in B1]
+		print coefs, 'coefficient list'
+		B0 = LR.intercept_[0]
+		print np.exp(B0), "intercept!!"
+		scores = cross_val_score(LR, X, y, cv = 3, scoring='roc_auc')
+		print scores
+		print np.mean(scores)
+
+		#test model
+		#calc accuracy
+		#re train on all data
+		#check min_status weight
+		#run new model w/o tract category
+		#run new model w/o min status
 		#need counts of tracts in each minority percent category - get from sql with a distinct query?
 		print "\napplication count by minority tract category\n", "*"*20
 		print app_2013.groupby('minority_tract_category').minority_tract_category.count() #print the count of applications by tract category
@@ -506,9 +552,10 @@ class call_tracts_2012(year_calls):
 		#order of tract_orig_rates list: high, low, middle, upper
 		self.nonminority_approval_rate = 0 #establishes a variable to hold rates for graphing
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2012(self):
 		cur = self.connect.connect()
 		print "Begin 2012 descriptors\n", "*"*30
@@ -623,9 +670,10 @@ class call_tracts_2011(year_calls):
 		#order of tract_orig_rates list: high, low, middle, upper
 		self.nonminority_approval_rate = 0 #establishes a variable to hold rates for graphing
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 
 	def descriptors_2011(self):
 		cur = self.connect.connect()
@@ -741,9 +789,10 @@ class call_tracts_2010(year_calls):
 		#order of tract_orig_rates list: high, low, middle, upper
 		self.nonminority_approval_rate = 0 #establishes a variable to hold rates for graphing
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2010(self):
 		cur = self.connect.connect()
 		print "Begin 2010 descriptors\n", "*"*30
@@ -858,9 +907,10 @@ class call_tracts_2009(year_calls):
 		#order of tract_orig_rates list: high, low, middle, upper
 		self.nonminority_approval_rate = 0 #establishes a variable to hold rates for graphing
 		self.HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
-					'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
-					'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
-					'minority_population_pct', 'tract_to_msa_md_income']
+							'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+							'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+							'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
+
 	def descriptors_2009(self):
 		cur = self.connect.connect()
 		print "Begin 2009 descriptors\n", "*"*30

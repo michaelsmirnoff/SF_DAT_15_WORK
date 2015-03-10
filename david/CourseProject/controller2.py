@@ -29,27 +29,16 @@ query = queries()
 connect = connect_DB()
 parse = parse_inputs()
 
-#instantiate year classes for baseline
-mil_2009 = call_2009()
-mil_2010 = call_2010()
-mil_2011 = call_2011()
-mil_2012 = call_2012()
-mil_2013 = call_2013()
+HMDA_cols = ['statecode', 'countycode', 'censustractnumber', 'applicantrace1', 'applicantrace2', 'applicantrace3', 'applicantrace4', 'applicantrace5',
+                            'coapplicantrace1', 'coapplicantrace2', 'coapplicantrace3', 'coapplicantrace4', 'coapplicantrace5', 'applicantethnicity', 'coapplicantethnicity',
+                            'applicantincome', 'ratespread', 'lienstatus', 'hoepastatus', 'purchasertype', 'loanamount', 'asofdate', 'hud_median_family_income',
+                            'minority_population_pct', 'tract_to_msa_md_income', 'actiontype', 'gender']
 
-#instantiate tract classes for tract groups
-tract_2013 = tracts_2013()
-tract_2012 = tracts_2012()
-tract_2011 = tracts_2011()
-tract_2010 = tracts_2010()
-tract_2009 = tracts_2009()
-
-
-'''
 #get dataframe for union of all databases
 cur = connect.connect()
 SQL = query.all_years_union()
 cur.execute(SQL)
-all_dbs = pd.DataFrame(cur.fetchall(), columns = tract_2009.HMDA_cols) #how do i reference HMDA cols from an object?
+all_dbs = pd.DataFrame(cur.fetchall(), columns = HMDA_cols) #how do i reference HMDA cols from an object?
 #change year variables to HMDA variables
 all_dbs['minority_status'] = 0 #initialize series in dataframe
 all_dbs['minority_tract_category'] = 0
@@ -62,16 +51,7 @@ for row in all_dbs.iterrows():
 all_dbs['minority_status'] = minority_status #input minority flags into the dataframe
 all_dbs['minority_tract_category'] = tract_cat
 
-#print all_dbs.head()
-'''
-#get descriptive data from tract categories
-tract_2013.descriptors_2013()
-#tract_2012.descriptors_2012()
-#tract_2011.descriptors_2011()
-#tract_2010.descriptors_2010()
-#tract_2009.descriptors_2009()
-#open credentials to access database
-#cur = connect.connect()
+
 
 
 print "\n"

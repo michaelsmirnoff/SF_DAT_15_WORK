@@ -39,6 +39,8 @@ class parse_inputs(AD_report):
 		self.inputs['MSA median income'] = row[1][21]
 		self.inputs['minority percent'] = row[1][23]
 		self.inputs['tract to MSA income'] = row[1][24]
+		self.inputs['action_taken'] = row[1][25]
+		self.inputs['gender'] = row[1][26]
 		self.inputs['tract income index'] = MSA_index.tract_to_MSA_income(self.inputs)
 		self.inputs['income bracket'] = MSA_index.app_income_to_MSA(self.inputs)
 		self.inputs['minority percent'] = MSA_index.minority_percent(self.inputs)
@@ -137,10 +139,10 @@ class demographics(AD_report):
 		if inputs['app non white flag'] == True or inputs['co non white flag'] == True or inputs['a ethn'] == '1' or inputs['co ethn'] == '1':
 			return  1
 		#if both applicants reported white race and non-hispanic/latino ethnicity then minority status is false
-		elif inputs['app non white flag'] != True and inputs['co non white flag'] != True and inputs['a ethn']  != '1' and inputs['co ethn'] != '1':
+		else: # inputs['app non white flag'] != True and inputs['co non white flag'] != True and inputs['a ethn']  != '1' and inputs['co ethn'] != '1':
 			return 0
-		else:
-			print 'minority status not set'
+		#else:
+		#	print 'minority status not set'
 
 	#this function outputs a number code for ethnicity: 0 - hispanic or latino, 1 - not hispanic/latino
 	#2 - joint (1 applicant hispanic/latino 1 not), 3 - ethnicity not available
@@ -288,52 +290,62 @@ class queries(AD_report):
 	#can I decompose these query parts into lists and concatenate them prior to passing to the cursor?
 	def count_originations_2009(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2009
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+		and applicantincome != '0';'''
 		return SQL
 
 	def count_originations_2010(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2010
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+		and applicantincome != '0';'''
 		return SQL
 
 	def count_originations_2011(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2011
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+		and applicantincome != '0';'''
 		return SQL
 
 	def count_originations_2012(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2012
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+		and applicantincome != '0';'''
 		return SQL
 
 	def count_originations_2013(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2013
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+		and applicantincome != '0';'''
 		return SQL
 
 	def count_applications_2009(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2009
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+		(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def count_applications_2010(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2010
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+		(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def count_applications_2011(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2011
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+		(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def count_applications_2012(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2012
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+		(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def count_applications_2013(self):
 		SQL = '''SELECT COUNT(msaofproperty) FROM Milwaukee_2013
-		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+		(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def originations2009(self):
@@ -344,8 +356,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+			and applicantincome != '0';'''
 		return SQL
 
 	def originations2010(self):
@@ -358,8 +371,9 @@ class queries(AD_report):
 			coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype,
 			loanamount, asofdate, median_family_income, minoritypopulationpct,
-			tract_to_msa_md_income
-			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+			tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+			and applicantincome != '0';'''
 		return SQL
 
 	def originations2011(self):
@@ -370,8 +384,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+			and applicantincome != '0';'''
 		return SQL
 
 	def originations2012(self):
@@ -382,8 +397,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+			and applicantincome != '0';'''
 		return SQL
 
 	def originations2013(self):
@@ -394,8 +410,9 @@ class queries(AD_report):
 		   statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 		   coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 		   applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-		   minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1';'''
+		   minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  actiontype = '1'
+			and applicantincome != '0';'''
 		return SQL
 
 	def applications2009(self):
@@ -405,8 +422,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def applications2010(self):
@@ -416,8 +434,9 @@ class queries(AD_report):
 		   statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 		   coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 		   applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-		   minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		   minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def applications2011(self):
@@ -427,8 +446,9 @@ class queries(AD_report):
 		   statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 		   coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 		   applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-		   minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+		   minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def applications2012(self):
@@ -438,8 +458,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def applications2013(self):
@@ -449,8 +470,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');'''
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';'''
 		return SQL
 
 	def all_years_union(self):
@@ -460,8 +482,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4')
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2013 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0'
 
 			UNION ALL
 
@@ -469,8 +492,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4')
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2012 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0'
 
 			UNION ALL
 
@@ -478,8 +502,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4')
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2011 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0'
 
 			UNION ALL
 
@@ -487,8 +512,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4')
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2010 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0'
 
 			UNION ALL
 
@@ -496,8 +522,9 @@ class queries(AD_report):
 			statecode, countycode, censustractnumber, applicantrace1, applicantrace2, applicantrace3, applicantrace4, applicantrace5,
 			coapplicantrace1, coapplicantrace2, coapplicantrace3, coapplicantrace4, coapplicantrace5, applicantethnicity, coapplicantethnicity,
 			applicantincome, ratespread, lienstatus, hoepastatus, purchasertype, loanamount, asofdate, median_family_income,
-			minoritypopulationpct, tract_to_msa_md_income
-			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and  (actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4');
+			minoritypopulationpct, tract_to_msa_md_income, actiontype, applicantsex
+			FROM Milwaukee_2009 WHERE occupancy = '1' and loantype = '1' and propertytype = '1' and lienstatus = '1' and loanpurpose = '1' and
+			(actiontype = '1' or actiontype = '2' or actiontype = '3' or actiontype = '4') and applicantincome != '0';
 			'''
 		return SQL
 
