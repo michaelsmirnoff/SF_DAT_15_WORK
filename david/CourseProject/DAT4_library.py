@@ -41,6 +41,7 @@ class parse_inputs(AD_report):
 		self.inputs['tract to MSA income'] = row[1][24]
 		self.inputs['action_taken'] = row[1][25]
 		self.inputs['gender'] = row[1][26]
+		self.inputs['year'] = row[1][27]
 		self.inputs['tract income index'] = MSA_index.tract_to_MSA_income(self.inputs)
 		self.inputs['income bracket'] = MSA_index.app_income_to_MSA(self.inputs)
 		self.inputs['minority percent'] = MSA_index.minority_percent(self.inputs)

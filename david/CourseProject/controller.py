@@ -111,7 +111,7 @@ Upper: app count 435, orig count 309, approve rate: 71.03%, pct apps by min: 65.
 Middle: app count 219, orig count 155, approve rate: 70.78%, pct apps by min: 49.77, pct orig to min:
 Low: app count: 7524, orig count 5991, approve rate: 79.63%, pct apps by min: 9.46
 '''
-'''
+
 mil_2009.descriptors_2009()
 print "\n"
 mil_2010.descriptors_2010()
@@ -127,7 +127,7 @@ mil_2013.descriptors_2013()
 min_approvals = [mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
 nonmin_approvals = [mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
 years = [2009, 2010, 2011, 2012, 2013]
-years2 = [2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013']
+years2 = ['2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013']
 axes = figure().add_subplot(111)
 a = axes.get_xticks().tolist()
 a = years2
@@ -278,7 +278,7 @@ plt.ylabel('percent')
 plt.ylim((0,100))
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
-
+'''
 
 '''
 #select MSA and build geo dictionary
