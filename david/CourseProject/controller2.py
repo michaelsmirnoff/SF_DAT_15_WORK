@@ -165,6 +165,7 @@ plt.plot(years, min_income_mid, label='mid minority')
 plt.plot(years, min_income_upp, label='upper minority')
 plt.plot(years, min_income_high, label='high minority')
 plt.ylabel('Income in 000s')
+plt.ylim((0,130))
 plt.title('Minority Applicant Income by Year')
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.legend()
@@ -182,6 +183,7 @@ plt.plot(years, non_min_income_mid, label='mid minority')
 plt.plot(years, non_min_income_upp, label='upper minority')
 plt.plot(years, non_min_income_high, label='high minority')
 plt.ylabel('Income in 000s')
+plt.ylim((0,130))
 plt.title('Non-Minority Applicant Income by Year')
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.legend()
@@ -263,6 +265,7 @@ plt.plot(years, min_loanval_mid, label='mid minority')
 plt.plot(years, min_loanval_upp, label='upper minority')
 plt.plot(years, min_loanval_high, label='high minority')
 plt.ylabel('Income in 000s')
+plt.ylim((0,250))
 plt.title('Minority Loan Values by Year')
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.legend()
@@ -280,6 +283,7 @@ plt.plot(years, non_min_loanval_mid, label='mid minority')
 plt.plot(years, non_min_loanval_upp, label='upper minority')
 plt.plot(years, non_min_loanval_high, label='high minority')
 plt.ylabel('Income in 000s')
+plt.ylim((0,250))
 plt.title('Non-Minority Loan Values by Year')
 plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.legend()
@@ -293,7 +297,7 @@ app_counts.append(data_2010.shape[0])
 app_counts.append(data_2011.shape[0])
 app_counts.append(data_2012.shape[0])
 app_counts.append(data_2013.shape[0])
-print "app counts\n", "*"*20, "\n", app_counts
+print "app counts\n", "*"*40, "\n", app_counts, "\n"
 min_app_counts = [] #minority application count per year
 min_app_counts.append(data_2009[data_2009.minority_status == 1].shape[0])
 min_app_counts.append(data_2010[data_2010.minority_status == 1].shape[0])
@@ -314,7 +318,12 @@ min_orig_counts.append(data_2010[data_2010.minority_status == 1].shape[0])
 min_orig_counts.append(data_2011[data_2011.minority_status == 1].shape[0])
 min_orig_counts.append(data_2012[data_2012.minority_status == 1].shape[0])
 min_orig_counts.append(data_2013[data_2013.minority_status == 1].shape[0])
-
+print "minority origination counts \n", "*"*40
+print "low:", min_orig_low
+print "mid:", min_orig_mid
+print "upp:", min_orig_upp
+print "high:", min_orig_high
+print "\n"
 non_min_app_counts = [app_counts[i]-min_app_counts[i] for i in range(0,len(app_counts))] #non minority application count per year
 non_min_orig_counts = [orig_counts[i]-min_orig_counts[i] for i in range(0, len(orig_counts))] #non-minority origination counts
 approval_rates = [round(orig_counts[i]/float(app_counts[i]),2) for i in range(0, len(app_counts))] #approval rates baseline
@@ -429,6 +438,11 @@ non_min_app_low = [low_app_counts[i] - min_app_low[i] for i in range(0, len(min_
 non_min_app_mid = [mid_app_counts[i] - min_app_mid[i] for i in range(0, len(min_app_mid))]
 non_min_app_upp = [upp_app_counts[i] - min_app_upp[i] for i in range(0, len(min_app_upp))]
 non_min_app_high = [high_app_counts[i] - min_app_high[i] for i in range(0, len(min_app_high))]
+print "non-minority application counts \n", "*"*40
+print "low:", non_min_app_low
+print "mid:", non_min_app_mid
+print "upp:", non_min_app_upp
+print "high:", non_min_app_high
 
 #minority origination counts by tract cateogry
 min_orig_low = [] #minority origination count for low minority tract
@@ -468,23 +482,63 @@ non_min_orig_low = [low_orig_counts[i] - min_orig_low[i] for i in range(0, len(m
 non_min_orig_mid = [mid_orig_counts[i] - min_orig_mid[i] for i in range(0, len(min_orig_mid))]
 non_min_orig_upp = [upp_orig_counts[i] - min_orig_upp[i] for i in range(0, len(min_orig_upp))]
 non_min_orig_high = [high_orig_counts[i] - min_orig_high[i] for i in range(0, len(min_orig_high))]
-
+print "non-minority origination counts \n", "*"*40
+print "low:", non_min_orig_low
+print "mid:", non_min_orig_mid
+print "upp:", non_min_orig_upp
+print "high:", non_min_orig_high
 #minority approval rates by tract category
-min_low_approval_rates = [round(min_orig_low[i]/float(min_app_low[i]),2) for i in range(0, len(min_orig_low))] #approval rates for low minority tracts
-min_mid_approval_rates = [round(min_orig_mid[i]/float(min_app_mid[i]),2) for i in range(0, len(min_orig_mid))] #approval rates for mid minority tracts
-min_upp_approval_rates = [round(upp_orig_counts[i]/float(min_app_upp[i]),2) for i in range(0, len(upp_orig_counts))] #approval rates for upper minority tracts
-min_high_approval_rates = [round(high_orig_counts[i]/float(min_app_high[i]),2) for i in range(0, len(high_orig_counts))] #approval rates for high minority tracts
+min_low_approval_rates = [round((min_orig_low[i]/float(min_app_low[i]))*100,2) for i in range(0, len(min_orig_low))] #approval rates for low minority tracts
+min_mid_approval_rates = [round((min_orig_mid[i]/float(min_app_mid[i]))*100,2) for i in range(0, len(min_orig_mid))] #approval rates for mid minority tracts
+min_upp_approval_rates = [round((min_orig_upp[i]/float(min_app_upp[i]))*100,2) for i in range(0, len(min_orig_upp))] #approval rates for upper minority tracts
+min_high_approval_rates = [round((min_orig_high[i]/float(min_app_high[i]))*100,2) for i in range(0, len(min_orig_high))] #approval rates for high minority tracts
+print "minority approval rates\n", "*"*40
+print "low:", min_low_approval_rates
+print "mid:", min_mid_approval_rates
+print "upp:", min_upp_approval_rates
+print "high:", min_high_approval_rates
 
 #non minority approval rates by tract category
-non_min_low_approval_rates = [round(non_min_orig_low[i]/float(non_min_app_low[i]),2) for i in range(0, len(non_min_orig_low))]
-non_min_mid_approval_rates = [round(non_min_orig_mid[i]/float(non_min_app_mid[i]),2) for i in range(0, len(non_min_orig_mid))]
-non_min_upp_approval_rates = [round(non_min_orig_upp[i]/float(non_min_app_upp[i]),2) for i in range(0, len(non_min_orig_upp))]
-non_min_high_approval_rates = [round(non_min_orig_high[i]/float(non_min_app_high[i]),2) for i in range(0, len(non_min_orig_high))]
+non_min_low_approval_rates = [round((non_min_orig_low[i]/float(non_min_app_low[i]))*100,2) for i in range(0, len(non_min_orig_low))]
+non_min_mid_approval_rates = [round((non_min_orig_mid[i]/float(non_min_app_mid[i]))*100,2) for i in range(0, len(non_min_orig_mid))]
+non_min_upp_approval_rates = [round((non_min_orig_upp[i]/float(non_min_app_upp[i]))*100,2) for i in range(0, len(non_min_orig_upp))]
+non_min_high_approval_rates = [round((non_min_orig_high[i]/float(non_min_app_high[i]))*100,2) for i in range(0, len(non_min_orig_high))]
 print "non minority approval rates\n", "*"*40
 print "low:", non_min_low_approval_rates
 print "mid:", non_min_mid_approval_rates
 print "upp:", non_min_upp_approval_rates
 print "high:", non_min_high_approval_rates
+
+axes = figure().add_subplot(111)
+a = axes.get_xticks().tolist()
+a = years2
+axes.set_xticklabels(years2)
+plt.plot(years, min_low_approval_rates, marker = 'o', color = 'r', label = 'low minority')
+plt.plot(years, min_mid_approval_rates, label='mid minority')
+plt.plot(years, min_upp_approval_rates, label='upper minority')
+plt.plot(years, min_high_approval_rates, label='high minority')
+plt.ylabel('percent')
+plt.ylim((0,100))
+plt.title('Minority approval rates')
+plt.legend(bbox_to_anchor=[1,0], loc='center')
+plt.legend()
+plt.show()
+
+
+axes = figure().add_subplot(111)
+a = axes.get_xticks().tolist()
+a = years2
+axes.set_xticklabels(years2)
+plt.plot(years, non_min_low_approval_rates, marker = 'o', color = 'r', label = 'low minority')
+plt.plot(years, non_min_mid_approval_rates, label='mid minority')
+plt.plot(years, non_min_upp_approval_rates, label='upper minority')
+plt.plot(years, non_min_high_approval_rates, label='high minority')
+plt.ylabel('percent')
+plt.ylim((0,100))
+plt.title('Non-Minority approval rates')
+plt.legend(bbox_to_anchor=[1,0], loc='center')
+plt.legend()
+plt.show()
 
 #process data to create binary output values and replace NAs
 all_dbs['origination_status'] = np.where(all_dbs.actiontype =='1', 1, 0) #convert 1-4 to binary. 1 = origination
