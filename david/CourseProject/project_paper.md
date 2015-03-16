@@ -31,15 +31,15 @@ I will graph the percent of applications and originations to minorities and the 
 
 I will build a logisitic regression model to predict probabiliy of approval for a loan and see how it performs on the LAR data set. My initial thought was to use the model as a time series, but having done some data exploration, there may be significant differences between the years. Training a model on each year and testing on tracts may prove more interesting. Determining if minority status or minority population percent are predictive of loan origination is my underlying goal.
 
+###Data Processing
 
 ##Tools
-* Python
-* PostGresSQL - houses the initial and Milwaukee data sets.
-* Psycopg2 - module used to interface between Python and PostGres
-* pandas
-* sci-kit learn
+    - Python
+    - PostGresSQL     - houses the initial and Milwaukee data sets.
+    - Psycopg2     - module used to interface between Python and PostGres
+    - pandas
+    - sci kit learn
 
-###Data Processing
 * Data loading - individual CSV files were loaded into a local instance of Postgres with Latin1 encoding
 * Data selection - one MSA chosen to work with. Milwaukee (33340) is an MSA with historic racial separation
 * Data cleaning - select fields which will be useful in the analysis and which fields need to be filtered prior to analysis
@@ -54,7 +54,7 @@ I will build a logisitic regression model to predict probabiliy of approval for 
         - applicant income: to control for credit decisions
         - as of date: to sort the analysis over time
         - minority population percent: as a proxy baseline for application and origination rate
-        - FFIEC/HUD median family inomce: show the relationship between borrower and area income (compare to miniority population and loan amount)
+        - FFIEC/HUD median family income: show the relationship between borrower and area income (compare to miniority population and loan amount)
         - minority status: derived attributed using FFIEC logic (takes inputs of applicant and co-applicant races and ethnicities to determine if the loan was made to a minority borrower)
         - Minority population concentration category: derived attribute using the following buckets- 0-30% low minority, 31-50% middle minority, 51-80% upper minority, 81-100% high minority
     
@@ -77,29 +77,14 @@ Initial data exploration showed decreased market participation (as a share of ma
 
 Examining income and loan values showed that, as expected, loan amounts tracked income. Graphing income and loan amount by minority concentration showed that an inverse relationship between minority concentration and income. This set of graphs was turning point where the project became a story about economic exclusion. Further work on this thought included an examination of minority and non-minority income and loan value inside each tract to determine if minority status is as predictive as minority concentration. In other words, is the quesiton about community wealth and opportunity or minority wealth and opportunity. In the four tract categories created, minorities, on average, earned less and had lower loan values than their non-minority counterparts in similar minority concentration areas. If time allows in the future, it will be informative to examine specific tracts over time to see if minority status correlates to economic status.
 
-    - application and origination counts by minority status (by tract and year) 
-    - % applications by minorities
-    - % originations to minorities
-    - tract minority % of population
-    - change in tract minority % population over time
-    - average loan amount to minority and non-minority by tract and year
-    
-* baselining for MSA
-    - application and origination counts by minority status (by tract and year)
-    - % applications by minorities
-    - % originations to minorities
-    - MSA minority population %
-    - average loan amount to minority and non-minority for the MSA by year
+###Model Selection
+The primary goal in choosing a model was not to determine loan origination status, but instead to determine which factors were highly important in predicting origination. If minority status or minority concentration were highly important factors, then it may be possible that some form of economic discrimination had occured. 
 
-###Analysis Plan
-* Compare application and origination counts and rates by minority and non-minority over time for each tract in Milwaukee
-* Compare loan amounts by minority and non-minority status as well as by location over time for each tract in Milwaukee
-    - this could include a comparison of minority/non-minority income to tract median income and MSA median income
-        + MSA to tract income comparison will be a proxy for a wealth/income disparity due to minority status
-* Develop a logistic regression model that predicts the outcome of a loan application
+Feature selection was limited to those features I was able to clean enough for Pandas to use. I was able to include the following: loan amount, applicant income, minority status (derived from race and ethnicity of both applicants), minority population percent, median tract income, year of application or origination. Year was converted from a string value to a dummy category for 2010-2013 using the .getdummies() function. 
+
+My initial model was a logistic regression which had very low predictive power across all features. After several attempts to tune the model, I abandoned it and began working on a random forest in hopes I would be able to isolate key features. As the data was already cleaned for the logistic regression, instantiating and running the random forest was a lot easier. AUC was nearly 77% and the top three features for decision points were applicant income, loan amount, and minority population percent. That these factors were the primary focus of my exploratory analysis furthered my belief that this was a story of economic exclusion which dated back to the institutionalizaiton of redlining, and likely had other related factors which reinforce economic disparity. 
+
+###Potential Project Extensions
+The Regulations department has expressed interest in seeing the outcome of the project. However, the code is not clean or stable enough to hand off as a product. Over the next several months I hope to be able to clean the code, and create a stable script that will run on our network databases. The script would take an input MSA number and create a series of output graphs and tabular data by year, minority status, and minority concentration percentage. If possible, I would like to open source the code so that analysis at community advocacy groups have a source for interpreting the FFIEC minority status logic as well as a simple to use tool that provides some basic analysis.
 
 
-##Code Structure
-* Controller
-* database
-* class library

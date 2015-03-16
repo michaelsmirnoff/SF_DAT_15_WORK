@@ -298,6 +298,7 @@ app_counts.append(data_2011.shape[0])
 app_counts.append(data_2012.shape[0])
 app_counts.append(data_2013.shape[0])
 print "app counts\n", "*"*40, "\n", app_counts, "\n"
+
 min_app_counts = [] #minority application count per year
 min_app_counts.append(data_2009[data_2009.minority_status == 1].shape[0])
 min_app_counts.append(data_2010[data_2010.minority_status == 1].shape[0])
@@ -324,6 +325,7 @@ print "mid:", min_orig_mid
 print "upp:", min_orig_upp
 print "high:", min_orig_high
 print "\n"
+
 non_min_app_counts = [app_counts[i]-min_app_counts[i] for i in range(0,len(app_counts))] #non minority application count per year
 non_min_orig_counts = [orig_counts[i]-min_orig_counts[i] for i in range(0, len(orig_counts))] #non-minority origination counts
 approval_rates = [round(orig_counts[i]/float(app_counts[i]),2) for i in range(0, len(app_counts))] #approval rates baseline
