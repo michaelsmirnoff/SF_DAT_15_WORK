@@ -1,0 +1,61 @@
+#INFERRING INNOVATIVE DRUGS FROM ADVERSE EVENT DATA#
+
+##Question##
+Can adverse event (AE) data predict whether a particular drug was deemed more innovative during U.S. Food and Drug Administration (FDA) review? More specifically, 
+can innovation category classification rules be determined for differences in AE attributes among drug and biologic products?
+
+##Data##
+I propose to obtain the innovation category data from a published seminal paper on drug innovation (Lanthier, et all 2013) and the AE data from the FDA's Adverse Event Reporting System (FAERS). 
+I hope to use the brand name as a key between the two databases.The Lanthier data is in .pdf form and has approximately 300+ records 
+while the full FAERS data contains roughly +5 million records and can be downloaded in ASCII or SGML.
+
+##Why##
+Predicting and determining why a particular drug or biologic is innovative poses a number of questions that I hope to shed light on.
+
+#PROGRESS#
+
+##Objective##
+My objective is to determine whether any of the AE columns can be used as regressors to predict a drugs classification as either "Addtion to Class" or "Advanced in Class".
+There are three primary classes first determined by the Lanthier et al data: 
+
++ "First in Class" - the first drug approved with its specific therapuetic mechanism;
++ "Advanced in Class" - thought to desmonstrate improved therapuetic or safety benefit over existing drugs and demonstrated if a drug
+achieved priority review status during FDA review; and
++ "Addtion to Class" -an approved drug with a known therapuetic mechanism but no priority review and thought to
+offer no additional therapuetic or saftey benefit
+
+##Data Munging##
+
+###Lanthier et al Data###
+My process of cleaning the data began with Lanthier et al data set containing 645 records of drugs and biologics approved by the FDA since 1987.
+I planned to use the TRADE_NAME as the key for searching the FAERS adverse event data.I removed one record that contained a duplicate name (this drug was approved twice under the same TRADE_NAME),
+and shortened records with TRADE_NAME that had two words into one word to catch the maximum amount of adverse event (AE) records. This was done because
+the FAERS data is user sumbitted and has low conformity to a set standard for specific drug names. As an example 'Mefloquine Hydrochloride' may only be reported in an FAERS record as "Mefloquine".
+
+Two records ('Firmagon' and 'Nucynta') also lacked TRADE_NAME in the Lanthier et al data ,which I had to research and manually enter.
+Addtionally, the Lanthier et all data was created in excel and converted into a .csv. This conversion included numerous blank rows and 
+columns that I then dropped during data cleansing.I also replaced spaces with underscores for the columns names. I now have this data 
+realtively clean and is represented as the 'Master_df' datafram in my code.
+
+###FAERS data###
+The FAERS consists of three separate .csv files. each for the drug, demographic, and outcome data. This data was further broken up by year and quarter.
+Each of these data are linked by the ISR as the key value. I first created YEAR and QTR columns in each data set to record when the AE data had been collected.
+I then aggregated each separate data set among the three categories (i.e. DRUG06Q1 + DRUG06Q2+DRUG06Q3...etc.) to form three separate and comrpehensive .csv's,
+DRUGS_MASTER, OUTCOMES_MASTER,and DEMO_MASTER.csv
+
+Scripts were then written to count the number of times each drug TRADE_NAME was found in the FAERS DRUG_MASTER.CSV to determine how many AE
+were associated with a given drug. This number was further subtracted to only included the number of records that had a target drug's
+trade name and was classified as a "primary suspect" or 'PS' in the data set. This because many drugs can be associated with one AE record but there
+is only one primary suspect with any given report. Each drug record in the Master_df was then populated with the number of adverse events. The same was done
+using each records ISR to populate from the OUTCOMES_MASTER.csv how many different types of AE outcomes (Hospitalization, Disable, etc.) were associated with each drug.
+
+##Model Building##
+The preliminary plan is to build several logistic regression models using each of the AE columns as regressors. A multiple linear regression model may
+also be used if several regressors are deemed signficant.
+
+###Model Evaluation###
+N/A
+
+###Preliminary Results ###
+N/A
+
