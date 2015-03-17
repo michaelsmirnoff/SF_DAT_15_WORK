@@ -9,7 +9,9 @@ from DAT4_library import connect_DB
 from DAT4_library import parse_inputs
 import pandas as pd
 import numpy as np
+from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
+from sklearn.cross_validation import train_test_split
 from pylab import *
 from years_of_milwaukee import call_2009
 from years_of_milwaukee import call_2010
@@ -41,11 +43,13 @@ tract_2011 = tracts_2011()
 tract_2010 = tracts_2010()
 tract_2009 = tracts_2009()
 
+
+'''
 #get dataframe for union of all databases
 cur = connect.connect()
 SQL = query.all_years_union()
 cur.execute(SQL)
-all_dbs = pd.DataFrame(cur.fetchall(), columns = tract_2009.HMDA_cols) #hot do i reference HMDA cols from an object?
+all_dbs = pd.DataFrame(cur.fetchall(), columns = tract_2009.HMDA_cols) #how do i reference HMDA cols from an object?
 #change year variables to HMDA variables
 all_dbs['minority_status'] = 0 #initialize series in dataframe
 all_dbs['minority_tract_category'] = 0
@@ -58,8 +62,8 @@ for row in all_dbs.iterrows():
 all_dbs['minority_status'] = minority_status #input minority flags into the dataframe
 all_dbs['minority_tract_category'] = tract_cat
 
-print all_dbs.head()
-
+#print all_dbs.head()
+'''
 #get descriptive data from tract categories
 tract_2013.descriptors_2013()
 tract_2012.descriptors_2012()
@@ -99,8 +103,15 @@ Filtered lending activity in MSA 33340
 2011: applicaitons , originations , approval percent =
 2012: applications , originations , approval percent =
 2013: applications , originations , approval percent =
+
+Filtered lending activity in MSA 33340 by tract category of minority pct population
+2010--
+High: app count: 179, orig count 103, approve rate: 57.54%, pct apps by min: 72.63, pct orig to min: 73.79
+Upper: app count 435, orig count 309, approve rate: 71.03%, pct apps by min: 65.98, pct orig to min: 65.98
+Middle: app count 219, orig count 155, approve rate: 70.78%, pct apps by min: 49.77, pct orig to min:
+Low: app count: 7524, orig count 5991, approve rate: 79.63%, pct apps by min: 9.46
 '''
-'''
+
 mil_2009.descriptors_2009()
 print "\n"
 mil_2010.descriptors_2010()
@@ -116,7 +127,7 @@ mil_2013.descriptors_2013()
 min_approvals = [mil_2009.minority_approval_rate, mil_2010.minority_approval_rate, mil_2011.minority_approval_rate, mil_2012.minority_approval_rate, mil_2013.minority_approval_rate]
 nonmin_approvals = [mil_2009.nonminority_approval_rate, mil_2010.nonminority_approval_rate, mil_2011.nonminority_approval_rate, mil_2012.nonminority_approval_rate, mil_2013.nonminority_approval_rate]
 years = [2009, 2010, 2011, 2012, 2013]
-years2 = [2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013']
+years2 = ['2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013']
 axes = figure().add_subplot(111)
 a = axes.get_xticks().tolist()
 a = years2
@@ -183,12 +194,13 @@ min_app_pct_high = [round((app_count_high[i] / float(total_app_high[i])*100),2) 
 
 years = [2009, 2010, 2011, 2012, 2013] #x axis for graphs
 years2 = ['2009', ' ', '2010', ' ', '2011', ' ', '2012', ' ', '2013'] #use spaces between numbers to fix tick labels on graphs
-print "\n2010 non min approval rates\n", "*"*20
+print "\nnon-minority approval rates\n", "*"*20
 print non_min_approvals_high, "high"
 print non_min_approvals_upper, "upper"
 print non_min_approvals_mid, "mid"
 print non_min_approvals_low, "low"
 #non-minority approval rate
+
 axes = figure().add_subplot(111)
 axes.set_xticklabels(years2)
 plt.plot(years, non_min_approvals_low, marker = 'o', color = 'b', label= 'low minority')
@@ -198,7 +210,7 @@ plt.plot(years, non_min_approvals_high, marker = 'o', color = 'g', label = 'high
 plt.title('Non-minority approval rates')
 plt.ylabel('percent')
 plt.ylim((0,100))
-plt.legend()
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
 
 #% of originations to minorities
@@ -210,7 +222,7 @@ plt.plot(years, min_orig_pct_upper, marker = 'o', color = 'k', label = 'upper mi
 plt.plot(years, min_orig_pct_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Percent of originations to minorities')
 plt.ylabel('percent')
-plt.legend()
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.ylim((0,100))
 plt.show()
 
@@ -224,7 +236,7 @@ plt.plot(years, min_app_pct_high, marker = 'o', color = 'g', label = 'high minor
 plt.title('Percent of applications by minorities')
 plt.ylabel('percent')
 plt.ylim((0,100))
-plt.legend()
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
 
 #minority application count by tract category
@@ -237,7 +249,7 @@ plt.plot(years, app_count_upper, marker = 'o', color = 'k', label = 'upper minor
 plt.plot(years, app_count_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Minority application counts by tract category')
 plt.ylabel('count')
-plt.legend()
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
 
 #minority origination count by tract category
@@ -250,7 +262,7 @@ plt.plot(years, orig_count_upper, marker = 'o', color = 'k', label = 'upper mino
 plt.plot(years, orig_count_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Minority origination counts by tract category')
 plt.ylabel('count')
-plt.legend()
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
 
 #minority approval rate
@@ -263,9 +275,10 @@ plt.plot(years, minority_approvals_upper, marker = 'o', color = 'k', label = 'up
 plt.plot(years, minority_approvals_high, marker = 'o', color = 'g', label = 'high minority')
 plt.title('Minority approval rate by tract category')
 plt.ylabel('percent')
-plt.legend()
+plt.ylim((0,100))
+plt.legend(bbox_to_anchor=[1,0], loc='center')
 plt.show()
-
+'''
 
 '''
 #select MSA and build geo dictionary
@@ -275,14 +288,14 @@ filename = 'MSA_33340_2013' #name the output file
 cred_list = credentials.split(',') #split credential string
 geo.main(cred_list, MSA) #assemble the JSON object
 geo.write_geo_dict(filename) #write the tracts as a JSON object
-
+'''
 #list of file paths on github.com for data retrieval
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2009.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2010.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2011.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2012.csv
 #https://github.com/Kibrael/DAT4-students/blob/master/david/CourseProject/milwaukee2013.csv
-'''
+
 
 
 
