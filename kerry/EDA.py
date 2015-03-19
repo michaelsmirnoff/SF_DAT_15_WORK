@@ -223,15 +223,15 @@ players3.mp.hist( by=players3.pos, bins = 10)
 
 
 def ranker(df):
-"""Assigns a rank to each employee in any given season based on pts, with 1 being the highest points in a season.
+    """Assigns a rank to each employee in any given season based on pts, with 1 being the highest points in a season.
 Assumes the data is DESC sorted."""
-df['pos_rank'] = np.arange(len(df)) + 1
-return df
+    df['pos_rank'] = np.arange(len(df)) + 1
+    return df
 
 #how do I find the best ranked skilled positions for each year instead for any given season? for loop?
 
 players3.sort('pts',ascending = False, inplace = True)
-players3 = players4.groupby('pos').apply(ranker)
+players3 = players3.groupby('pos').apply(ranker)
 rankBy_pts = players3[players3.pos_rank == 1]
 
 players3.sort('ast',ascending = False, inplace = True)
@@ -252,11 +252,11 @@ rankBy_blk = players3[players3.pos_rank == 1]
 
 players3.sort('trb',ascending = False, inplace = True)
 players3 = players3.groupby('pos').apply(ranker)
-rankBy_trb = players4[players4.pos_rank == 1]
+rankBy_trb = players3[players3.pos_rank == 1]
 
 players3.sort('mp',ascending = False, inplace = True)
 players3 = players3.groupby('pos').apply(ranker)
-rankBy_mp = players4[players3.pos_rank == 1]
+rankBy_mp = players3[players3.pos_rank == 1]
 
 
 #NEED ALL-TEAM NBA DATA(need to find the what distribution of players have been on all nba team)
