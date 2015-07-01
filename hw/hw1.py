@@ -58,7 +58,7 @@ killings.groupby('age').age.plot(kind='hist', stacked=True)
 
 # 11. Show 6 histograms of ages by race
 
-killings.groupby('race').age.plot(kind='hist', stacked=True)
+killings.groupby('race').age.plot(kind='hist', stacked=False)
 
 # 12. What is the average age of death by race?
 killings.groupby('race').age.mean()
