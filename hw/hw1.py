@@ -12,6 +12,8 @@ This is due 7/1/2015
 #Author:Nick Smirnov
 
 import pandas as pd
+import matplotlib.pyplot as plt
+
 # pd.set_option('max_colwidth', 50)
 # set this if you need to
 
@@ -58,8 +60,30 @@ killings.groupby('age').age.plot(kind='hist', stacked=True)
 
 # 11. Show 6 histograms of ages by race
 
-killings.groupby('race').age.plot(kind='hist', stacked=False)
+byrace = killings.groupby('race').age
+#plot(kind='hist', stacked=False)
 
+'''
+fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(20, 10))
+fig.subplots_adjust(hspace=1.0) ## Create space between plots
+
+byrace['FL'].plot(ax=axes[0,0])
+byrace['GA'].plot(ax=axes[0,1])
+byrace['GA'].plot(ax=axes[0,1]) 
+byrace['TX'].plot(ax=axes[1,0]) 
+byrace['NY'].plot(ax=axes[1,1]) 
+byrace['GA'].plot(ax=axes[0,1])
+
+# Add titles
+axes[0,0].set_title('Florida')
+axes[0,1].set_title('Georgia')
+axes[0,1].set_title('Georgia')
+axes[1,0].set_title('Texas')
+axes[1,1].set_title('North East');
+axes[0,1].set_title('Georgia')
+
+byrace.hist(figsize=(6, 4))
+'''
 # 12. What is the average age of death by race?
 killings.groupby('race').age.mean()
 
