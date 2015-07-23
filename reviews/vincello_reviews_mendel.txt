@@ -1,1 +1,0 @@
-For Gary: I seems like it would be useful to combine (or concatenate) the words of from the questions and the the answers into one big text blob. Then you could the run vectorizer on the whole "Q & A" text blob, before doing the k-means clustering. The presentation rocks, it was very easy to understand how useful this code will be for your app once it's finished.

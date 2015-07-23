@@ -1,8 +1,0 @@
-Kerry Jones commnets:
-1) Clear and concise goal of project 
-2) Like how you commented and broke down code step by step
-3) Data dictionary would be good to help bette understand the variables. Maybe also consider shortening the column names
-4) Random Forest/Decision Tree would be good to try and you may also want to compute feature importance. 
-5) Confused about what lambda does
-6) Line 63:
-feature_cols = ['A', 'B', 'C'] #where did these column names come from?
