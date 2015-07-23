@@ -19,7 +19,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.cross_validation import train_test_split
 import statsmodels.formula.api as smf
-
+from sklearn.cross_validation import cross_val_score
 
 import nltk
 nltk.download('all')
@@ -77,6 +77,12 @@ print metrics.mean_absolute_error(y_test, y_pred)
 #RMSE:
 print np.sqrt(metrics.mean_squared_error(y_test, y_pred))
 # RMSE = 1.1842
+
+#Cross Validation
+
+scores = cross_val_score(linreg, X, y, scoring='mean_squared_error', cv=5)
+
+# scores = ([-1.43568231, -1.38726147, -1.48157086, -1.39452156, -1.42503372])
 
 # 4. Use statsmodels to show your pvalues
 # for each of the three predictors
@@ -138,6 +144,12 @@ specificity = float(matrix[0][0]) / (matrix[0][1] + matrix[0][0])
 accuracy = (float(matrix[0][0]) + matrix[1][1]) / ((matrix[1][0] + matrix[1][1])+(matrix[0][1] + matrix[0][0]))
 # accuracy = 69.1%
 
+#Cross Validation
+
+scores = cross_val_score(logreg, X, y, scoring='accuracy', cv=5)
+
+#scores = ([ 0.3554668 ,  0.35182409,  0.36018009,  0.35517759,  0.35535536])
+
 # 8. Perform one NEW operation of your 
 # choosing to try to boost your metrics!
 
@@ -166,6 +178,12 @@ specificity = float(matrix[0][0]) / (matrix[0][1] + matrix[0][0])
 # specificity = 99.0 %
 accuracy = (float(matrix[0][0]) + matrix[1][1]) / ((matrix[1][0] + matrix[1][1])+(matrix[0][1] + matrix[0][0]))
 # accuracy = 99.4%
+
+#Cross Validation
+
+scores = cross_val_score(logreg, X, y, scoring='accuracy', cv=5)
+
+#scores = ([ 0.3554668 ,  0.35182409,  0.36018009,  0.35517759,  0.35535536])
 
 ##### Part 2 ######
 
@@ -204,15 +222,15 @@ titanic_data.Age[titanic_data.Sex == 'female'].isnull().sum()
 
 #drinks.fillna(value='NA')   
 #ufo.Colors.fillna(value='Unknown', inplace=True)
-titanic_data[titanic_data.Sex == 'male'].Age.fillna(value=avg_male_age, inplace=True)
-
+#titanic_data[titanic_data.Sex == 'male'].Age.fillna(value=avg_male_age, inplace=True)
 
 
 # 6. Fill in missing FEMALE age values with the
 # average age of the remaining FEMALE ages
 
-titanic_data[titanic_data.Sex == 'female'].Age.fillna(value=avg_female_age, inplace=True)
+#titanic_data[titanic_data.Sex == 'female'].Age.fillna(value=avg_female_age, inplace=True)
 
+titanic_data['Age'] = titanic_data.groupby("Sex").transform(lambda x: x.fillna(x.mean()))['Age'] 
 
 #drinks.fillna(value='NA')   
 #titanic.Age[titanic_data.Sex == 'female'].fillna(avg_male_age, inplace=True)
@@ -235,8 +253,8 @@ Titanic_Prediction = logreg.predict(X_test)
 matrix = metrics.confusion_matrix(y_test, Titanic_Prediction)
 
 '''  Confusion Matrix
-        [[ ###, ###],
-         [ ###, ###]]
+        [[ 125, 3],
+         [ 84, 11]]
 
 '''
 
@@ -244,16 +262,23 @@ matrix = metrics.confusion_matrix(y_test, Titanic_Prediction)
 # Confusion matrix
 
 sensitivity = float(matrix[1][1]) / (matrix[1][0] + matrix[1][1])
-# sensitivity =  %
+# sensitivity =  11.6%
 specificity = float(matrix[0][0]) / (matrix[0][1] + matrix[0][0])
-# specificity =  %
+# specificity =  97.7%
 accuracy = (float(matrix[0][0]) + matrix[1][1]) / ((matrix[1][0] + matrix[1][1])+(matrix[0][1] + matrix[0][0]))
-# accuracy =  %
+# accuracy =  61.0%
+
+#Cross Validation
+from sklearn.cross_validation import cross_val_score
+#
+scores = cross_val_score(logreg, X, y, scoring='accuracy', cv=5)
+
+#scores:  ([ 0.64804469,  0.65921788,  0.67977528,  0.65168539,  0.6779661 ])
 
 # 9. now use ANY of your variables as predictors
 # Still using survived as a response to boost metrics!
 
-feature_cols = ['Age','Wife','Pclass','Sex']
+feature_cols = ['Age','Wife','Pclass']
 
 X = titanic_data[feature_cols]
 y = titanic_data.Survived
@@ -266,16 +291,23 @@ Titanic_Prediction = logreg.predict(X_test)
 matrix = metrics.confusion_matrix(y_test, Titanic_Prediction)
 
 '''  Confusion Matrix
-        [[ ###, ###],
-         [ ###, ###]]
+        [[ 118, 10],
+         [ 54, 41]]
 
 '''
 
 # 10. Show Accuracy, Sensitivity, Specificity
 
 sensitivity = float(matrix[1][1]) / (matrix[1][0] + matrix[1][1])
-# sensitivity =  %
+# sensitivity =  43.2%
 specificity = float(matrix[0][0]) / (matrix[0][1] + matrix[0][0])
-# specificity =  %
+# specificity =  92.2%
 accuracy = (float(matrix[0][0]) + matrix[1][1]) / ((matrix[1][0] + matrix[1][1])+(matrix[0][1] + matrix[0][0]))
-# accuracy =  %
+# accuracy =  71.3%
+
+#Cross Validation
+
+scores = cross_val_score(logreg, X, y, scoring='accuracy', cv=5)
+
+#scores = ([ 0.65921788,  0.70391061,  0.76404494,  0.73595506,  0.74011299])
+

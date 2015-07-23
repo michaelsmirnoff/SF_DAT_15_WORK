@@ -1,0 +1,6 @@
+Hey Akshay.  Great job overall.  The file I had to review isn't the most recent version of your code that I saw last Sunday.  Since we have already talked in person about ways to extend this and create a predictive model, I'll keep this brief and summarize the things we've already talked about.
+* I like the segmenting of the data you did.  You identified what part of the large dataset you needed and segmented it to access just that part.
+* Also, your infromative comments are always good.  I like that you described the data and what each variable means.
+* Once you get financial data, you can identify "events" in the data.  These can be increases or decreases in stock price for certain industries.  You can identify these "events" for each terrorist event you have and then construct a classifcation model that predicts whether a financial event happened based upon the attributes of the terrorist attack.  I'm interested to see which variables have the most significant effect upon the affected financial market.
+
+Please feel free to Slack me if you have any questions or need any more help identifying these events in your financial data.

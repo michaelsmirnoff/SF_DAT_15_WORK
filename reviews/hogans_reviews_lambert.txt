@@ -1,0 +1,17 @@
+Strengths
+Use of key words/tags to identify themes and correlate with shares
+Use of Map to set theme values
+Use of linear regression to identify significant relationships
+Use of z-scores to evaluate shares per users reached
+
+Proposed Improvements
+Build model with original shares per user reached and compare models
+Revisit AUC as stated below
+
+Questions
+What was the purpose for splitting "Themes"? 
+
+Suggestions
+Further define the performance metric from the point of engagement if possible(Share? Share + Reply Mention? Share + Comment? etc.)
+Predict effective, high sharing posts with classifier based on features with greatest value to the model
+

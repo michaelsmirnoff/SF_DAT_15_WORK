@@ -1,0 +1,29 @@
+First, sorry for the plain text - that's the easiest from the comp I'm working from.
+
+*Strengths of their project (things you particularly like about it)
+
+Neat project selection. 
+The key matching you propose sounds creative.
+The data model is helpful to understanding how you will build your database.
+Nice job rolling up your sleeves and adding / cleaning data.
+logistic regressing makes sense to me based on the approach.
+
+
+*Comments about things you think could be improved
+
+Any chance there are other papers in additon to Lanthier? I just wonder if one paper, no matter how nice, will provide enough data points to get significant results. Also, if they have their own definition of innovative it might not be universal.
+
+*Questions about things you don't understand
+
+Reading between the lines of your question statement, are you wondering if you could potentially identify that 'more innovative' drugs might also be riskier? If not, I'm not sure I understand the directionality of your question. You word it like adverse affects predict if it is innovative, which seems like reverse causality to my (admittedly uninformed) perspective.
+
+It would be helpful to know how many of the 600+ records in Lanthier are flagged as innovative, and how many have adverse effects (or the total # in the database). No classifier will work unless you have some events to train on, so hopefully there are some good linkes (although now that I say that, I realize that events means adverse effects and feel like a jerk for saying hopefully. But you know what I mean - hopefully for data science).
+
+
+*Comments about their code
+
+I had to delete a stray ' to get it to run and changed the path to my local version of your data file. I still get "IndexError" on some of the later charts. But, it looks like you are succesfully loading and cleaning all the data on events and doing the right kind of data exploraton.
+
+
+*Suggestions for next steps
+
