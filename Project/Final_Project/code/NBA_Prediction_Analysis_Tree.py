@@ -33,20 +33,16 @@ nltk.download('all')
 # Load saved CSVs into Data Frames
 #
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\NBAStats.csv'
-#NBA_Stats = pd.read_csv(file_name, index_col=0)
-NBA_Stats = pd.read_csv(file_name)
+file_name = 'https://raw.githubusercontent.com/nsmirnov/SF_DAT_15_WORK/master/Project/Final_Project/data/NBAStats.csv'
+NBA_Stats = pd.read_csv(file_name, index_col=0)
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\Debut.csv'
-Debuts = pd.read_csv(file_name)
-
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\One.csv'
+file_name = 'https://raw.githubusercontent.com/nsmirnov/SF_DAT_15_WORK/master/Project/Final_Project/data/One.csv'
 NBA_Rookie_Stats = pd.read_csv(file_name)
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\Two.csv'
+file_name = 'https://raw.githubusercontent.com/nsmirnov/SF_DAT_15_WORK/master/Project/Final_Project/data/Two.csv'
 NBA_Second_Stats = pd.read_csv(file_name)
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\Three.csv'
+file_name = 'https://raw.githubusercontent.com/nsmirnov/SF_DAT_15_WORK/master/Project/Final_Project/data/Three.csv'
 NBA_Third_Stats = pd.read_csv(file_name)
 
 #
@@ -383,5 +379,7 @@ cross_val_score(best, X, Y, cv=10, scoring='accuracy').mean()
 cross_val_score(logreg, X, Y, cv=10, scoring='roc_auc').mean()
 # 0.922
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\One.csv'
+''' Note, you'll need to adjust the location of the NBA Rookies file per your own settings'''
+
+file_name = 'data\One.csv'
 NBA_Rookie_Stats.to_csv(file_name,index=False)

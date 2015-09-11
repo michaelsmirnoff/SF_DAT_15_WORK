@@ -3,6 +3,8 @@
 Created on Sat Aug  1 12:00:00 2015
 
 @author: Nick Smirnov
+
+Original code was written by MindKontrol.  The basis of the original work was written by MindKontrol to extract nominal & advanced player data.  I included for a way to scrape for initial rookie season information.
 """
 
 #Library for all execution
@@ -320,14 +322,14 @@ for player in inclusive_player_names:
 #           NBA_Data[(NBA_Data.player == 'Kobe Bryant') & (NBA_Data.season_end == 2000)]['season_end'] 
 
 
-
+''' Note, you'll need to adjust the location of the NBA Rookies file per your own settings'''
 
 #Load NBA Stats from CSVs
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\NBAStats.csv'
+file_name = 'data\NBAStats.csv'
 #NBA_Stats = pd.read_csv(file_name, index_col=0)
 NBA_Stats = pd.read_csv(file_name)
 
-file_name = 'C:\Users\Nick\Desktop\GA\SF_DAT_15_WORK\Project\First_Draft\data\Debut.csv'
+file_name = 'data\Debut.csv'
 Debuts = pd.read_csv(file_name)
 
 #
